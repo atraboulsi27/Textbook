@@ -1,10 +1,20 @@
-import 'package:books_app/main_body.dart';
+import 'package:books_app/add_book.dart';
+import 'package:books_app/books_list.dart';
+import 'package:books_app/chats.dart';
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(MaterialApp(
-    home: Home(),
+    home: Switch(),
   ));
+}
+
+Widget Switch() {
+  bool loggedIn = true;
+  if (loggedIn)
+    return Home();
+  else
+    return Home();
 }
 
 class Home extends StatefulWidget {
@@ -14,6 +24,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int currentIndex = 0;
+  Map<int, Widget> pageMap = {0: BooksList(), 1: AddBook(), 2: Chats()};
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,36 +62,23 @@ class _HomeState extends State<Home> {
       drawer: Drawer(
         child: Container(),
       ),
-      body: MainBody(),
+      body: pageMap[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color(0xFFA07070),
         fixedColor: Colors.white,
         unselectedItemColor: Color(0x60FFFFFF),
         currentIndex: currentIndex,
-        onTap: (index){
+        onTap: (index) {
           setState(() {
             currentIndex = index;
           });
         },
         items: [
+          BottomNavigationBarItem(title: Text("Books"), icon: Icon(Icons.list)),
           BottomNavigationBarItem(
-            title: Text("Books"),
-            icon: Icon(
-              Icons.list
-            )
-          ),
+              title: Text("Add Book"), icon: Icon(Icons.add)),
           BottomNavigationBarItem(
-              title: Text("Add Book"),
-              icon: Icon(
-                  Icons.add
-              )
-          ),
-          BottomNavigationBarItem(
-              title: Text("Chats"),
-              icon: Icon(
-                  Icons.chat_bubble
-              )
-          ),
+              title: Text("Chats"), icon: Icon(Icons.chat_bubble)),
         ],
       ),
     );
