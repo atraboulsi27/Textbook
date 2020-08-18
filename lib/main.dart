@@ -1,6 +1,6 @@
-import 'file:///K:/Personal/Flutter/FlutterApps/books_app/lib/Pages/add_book.dart';
-import 'file:///K:/Personal/Flutter/FlutterApps/books_app/lib/Pages/books_list.dart';
-import 'file:///K:/Personal/Flutter/FlutterApps/books_app/lib/Pages/chats.dart';
+import 'Pages/add_book.dart';
+import 'Pages/books_list.dart';
+import 'Pages/chats.dart';
 import 'package:books_app/Login/Login.dart';
 import 'package:flutter/material.dart';
 
