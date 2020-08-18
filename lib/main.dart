@@ -45,7 +45,7 @@ class _HomeState extends State<Home> {
           style: TextStyle(
               letterSpacing: 2,
               color: Color(0xFFB67777),
-              fontFamily: "Segoe UI",
+              fontFamily: "selawk",
               fontSize: 24,
               fontWeight: FontWeight.bold,
               fontStyle: FontStyle.italic),
