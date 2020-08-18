@@ -95,7 +95,7 @@ class BookCard extends StatelessWidget {
                         Align(
                           alignment: Alignment.centerRight,
                           child: Image(
-                            image: AssetImage("assets/arrow_icon.png"),
+                            image: AssetImage("assets/images/arrow_icon.png"),
                             height: 50,
                           ),
                         ),

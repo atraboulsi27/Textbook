@@ -1,20 +1,28 @@
-import 'package:books_app/add_book.dart';
-import 'package:books_app/books_list.dart';
-import 'package:books_app/chats.dart';
+import 'file:///K:/Personal/Flutter/FlutterApps/books_app/lib/Pages/add_book.dart';
+import 'file:///K:/Personal/Flutter/FlutterApps/books_app/lib/Pages/books_list.dart';
+import 'file:///K:/Personal/Flutter/FlutterApps/books_app/lib/Pages/chats.dart';
+import 'package:books_app/Login/Login.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MaterialApp(
-    home: Switch(),
-  ));
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Textbooks App',
+      home: Switch(),
+      debugShowCheckedModeBanner: false,
+    );
+  }
 }
 
 Widget Switch() {
-  bool loggedIn = true;
+  bool loggedIn = false; //firebase code to check if signed in or not
   if (loggedIn)
     return Home();
   else
-    return Home();
+    return Login();
 }
 
 class Home extends StatefulWidget {
@@ -60,7 +68,14 @@ class _HomeState extends State<Home> {
         ),
       ),
       drawer: Drawer(
-        child: Container(),
+        child: Scaffold(
+          body: Center(
+              child: RaisedButton(
+                child: Text("Sign Out"),
+                onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => Login())),
+              ),
+          ),
+        ),
       ),
       body: pageMap[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
