@@ -61,20 +61,22 @@ class BookCard extends StatelessWidget {
         child: Card(
           elevation: 0,
           child: Container(
-            height: 160,
+            height: 150,
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.black, width: 0.5)),
             child: Row(children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
                 child: Container(
-                  child: Image(
-                    image: CachedNetworkImageProvider(book.image),
-                    width: 90,
+                  child: Container(
+                    width: 90
                   ),
                   decoration: BoxDecoration(
                     border: Border.all(color: Color(0xFF804A4A), width: 5),
                     borderRadius: BorderRadius.all(Radius.circular(10)),
+                    image: DecorationImage(
+                      image: CachedNetworkImageProvider(book.image),
+                    )
                   ),
                 ),
               ),
@@ -95,15 +97,19 @@ class BookCard extends StatelessWidget {
                     ),
                     Align(
                       alignment: Alignment.centerRight,
-                      child: Image(
-                        image: AssetImage("assets/images/arrow_icon.png"),
-                        height: 50,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                        child: Image(
+                          image: AssetImage("assets/images/arrow_icon.png"),
+                          height: 50,
+                        ),
                       ),
                     ),
                     Divider(
                       height: 10,
                       color: Color(0xFF706161),
                       thickness: 2,
+                      endIndent: 10,
                     ),
                     Text(
                       book.date,
