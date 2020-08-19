@@ -2,6 +2,7 @@ import 'package:books_app/Pages/classes.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class BookDetails extends StatelessWidget {
   Book book;
@@ -42,28 +43,24 @@ class BookDetails extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               child: Container(
                 decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: CachedNetworkImageProvider(book.image),
-                    fit: BoxFit.fill
-                  ),
-                  border: Border.all(
-                    color: Color(0xFF804A4A),
-                    width: 4
-                  ),
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [BoxShadow(
-                    color: Colors.grey,
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset: Offset(3, 3)
-                  )]
-                ),
+                    image: DecorationImage(
+                        image: CachedNetworkImageProvider(book.image),
+                        fit: BoxFit.fill),
+                    border: Border.all(color: Color(0xFF804A4A), width: 4),
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.grey,
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(3, 3))
+                    ]),
                 child: Container(
                   height: 200,
                   width: 130,
                 ),
-                ),
               ),
+            ),
             Label(Icons.book, book.title),
             Label(Icons.edit, book.author),
             Label(Icons.calendar_today, book.date),
@@ -79,39 +76,39 @@ class BookDetails extends StatelessWidget {
             Icons.add_shopping_cart,
           ),
           decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: Colors.green,
-              width: 3
-            )
-          ),
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.green, width: 3)),
         ),
         foregroundColor: Colors.green,
         backgroundColor: Colors.white,
-        onPressed: (){},
+        onPressed: () {},
       ),
     );
   }
 }
 
-Widget Label(IconData icon, String info){
-  return
-    Padding(
-      padding: const EdgeInsets.all(10),
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: Icon(
-              icon,
-              color: Color(0xFF804A4A),
-            ),
-          ),
-          Text(info, style: TextStyle(
+Widget Label(IconData icon, String info) {
+  return Padding(
+    padding: const EdgeInsets.all(10),
+    child: Row(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Icon(
+            icon,
             color: Color(0xFF804A4A),
-            fontSize: 20,
-          ),)
-        ],
-      ),
-    );
+          ),
+        ),
+        AutoSizeText(
+          info,
+          maxFontSize: 22,
+          minFontSize: 17,
+          maxLines: 2,
+          style: TextStyle(
+            color: Color(0xFF804A4A),
+          ),
+        )
+      ],
+    ),
+  );
 }

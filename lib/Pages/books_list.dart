@@ -2,6 +2,8 @@ import 'package:books_app/Pages/book_details.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'classes.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+
 
 class BooksList extends StatelessWidget {
   final List books = [
@@ -12,8 +14,8 @@ class BooksList extends StatelessWidget {
         price: "15 \$",
         image: "http://khaled.3dbeirut.com/Download%20Files/arsonist.png"),
     Book(
-        title: "The King of Drugs",
-        author: "Nora Barrett",
+        title: "The King of Drugs The King of Drugs The King of Drugs The King of Drugs",
+        author: "Nora Barrett Nora Barrett Nora Barrett Nora Barrett Nora Barrett",
         date: "July 31",
         price: "150 \$",
         image: "http://khaled.3dbeirut.com/Download%20Files/test.jpg"),
@@ -61,7 +63,7 @@ class BookCard extends StatelessWidget {
         child: Card(
           elevation: 0,
           child: Container(
-            height: 150,
+            height: 170,
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.black, width: 0.5)),
             child: Row(children: [
@@ -85,15 +87,15 @@ class BookCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text(
-                      book.title,
+                    AutoSizeText(
+                      book.title,maxFontSize: 22,maxLines: 2,minFontSize: 16,
                       style:
-                          TextStyle(fontSize: 22, color: Color(0xFF706161)),
+                          TextStyle(color: Color(0xFF706161)),
                     ),
-                    Text(
-                      book.author,
+                    AutoSizeText(
+                      book.author, maxLines: 1,maxFontSize: 12,
                       style:
-                          TextStyle(fontSize: 12, color: Color(0xFF706161)),
+                          TextStyle(color: Color(0xFF706161)),
                     ),
                     Align(
                       alignment: Alignment.centerRight,
