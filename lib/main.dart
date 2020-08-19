@@ -32,7 +32,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int currentIndex = 0;
-  Map<int, Widget> pageMap = {0: BooksList(), 1: AddBook(), 2: Chats()};
+  Map<int, Widget> pageMap = {0: BooksList(), 1: AddBook(), 2: ChatList()};
   Map<int, String> titleMap = {0: "Text Books", 1: "Add Book", 2: "Chats"};
 
   @override
