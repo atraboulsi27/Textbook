@@ -1,3 +1,5 @@
+import 'package:books_app/Pages/drawer.dart';
+
 import 'Pages/add_book.dart';
 import 'Pages/books_list.dart';
 import 'Pages/chats.dart';
@@ -69,14 +71,7 @@ class _HomeState extends State<Home> {
         ),
       ),
       drawer: Drawer(
-        child: Scaffold(
-          body: Center(
-              child: RaisedButton(
-                child: Text("Sign Out"),
-                onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => Login())),
-              ),
-          ),
-        ),
+        child: BookDrawer(context),
       ),
       body: pageMap[currentIndex],
       bottomNavigationBar: BottomNavigationBar(

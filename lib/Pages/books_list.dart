@@ -66,7 +66,7 @@ class BookCard extends StatelessWidget {
                 border: Border.all(color: Colors.black, width: 0.5)),
             child: Row(children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                padding: const EdgeInsets.fromLTRB(3, 3, 8, 3),
                 child: Container(
                   child: Container(
                     width: 90

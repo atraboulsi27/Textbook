@@ -59,7 +59,7 @@ class ChatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 7),
       child: InkWell(
         onTap: () {},
         child: Card(

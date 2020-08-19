@@ -17,7 +17,7 @@ class BookDetails extends StatelessWidget {
         iconTheme: IconThemeData(color: Color(0xFFB67777)),
         centerTitle: true,
         title: Text(
-          "Text Books",
+          "Book Details",
           style: TextStyle(
               letterSpacing: 2,
               color: Color(0xFFB67777),
@@ -88,6 +88,7 @@ class BookDetails extends StatelessWidget {
         ),
         foregroundColor: Colors.green,
         backgroundColor: Colors.white,
+        onPressed: (){},
       ),
     );
   }
