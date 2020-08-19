@@ -1,5 +1,4 @@
-import 'package:books_app/Pages/book_class.dart';
-import 'package:books_app/Pages/chat_class.dart';
+import 'package:books_app/Pages/classes.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 

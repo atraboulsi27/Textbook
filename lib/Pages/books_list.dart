@@ -1,7 +1,7 @@
 import 'package:books_app/Pages/book_details.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'book_class.dart';
+import 'classes.dart';
 
 class BooksList extends StatelessWidget {
   final List books = [
