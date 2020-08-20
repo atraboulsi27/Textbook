@@ -3,12 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'Register.dart';
 
-class Login extends StatefulWidget {
+class Login extends StatelessWidget {
   @override
-  _Login createState() => _Login();
-}
 
-class _Login extends State<Login> {
   TextEditingController emailController = new TextEditingController();
 
   @override

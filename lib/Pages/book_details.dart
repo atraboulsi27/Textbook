@@ -61,11 +61,11 @@ class BookDetails extends StatelessWidget {
                 ),
               ),
             ),
-            Label(Icons.book, book.title),
-            Label(Icons.edit, book.author),
-            Label(Icons.calendar_today, book.date),
-            Label(Icons.monetization_on, book.price),
-            Label(Icons.description, "Description?"),
+            Label(Icons.book, book.title,context),
+            Label(Icons.edit, book.author,context),
+            Label(Icons.calendar_today, book.date,context),
+            Label(Icons.monetization_on, book.price,context),
+            Label(Icons.description, "Description?",context),
           ],
         ),
       ),
@@ -87,7 +87,7 @@ class BookDetails extends StatelessWidget {
   }
 }
 
-Widget Label(IconData icon, String info) {
+Widget Label(IconData icon, String info,BuildContext context) {
   return Padding(
     padding: const EdgeInsets.all(10),
     child: Row(
@@ -99,13 +99,16 @@ Widget Label(IconData icon, String info) {
             color: Color(0xFF804A4A),
           ),
         ),
-        AutoSizeText(
-          info,
-          maxFontSize: 22,
-          minFontSize: 17,
-          maxLines: 2,
-          style: TextStyle(
-            color: Color(0xFF804A4A),
+        Container(
+          width: MediaQuery.of(context).size.width*0.7,
+          child: AutoSizeText(
+            info,
+            maxFontSize: 22,
+            minFontSize: 17,
+            maxLines: 5,
+            style: TextStyle(
+              color: Color(0xFF804A4A),
+            ),
           ),
         )
       ],
