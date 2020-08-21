@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:http/http.dart';
 import 'classes.dart';
 import 'package:books_app/main.dart';
 
@@ -20,10 +24,30 @@ class _BooksListState extends State<BooksList> {
   TextEditingController searchBarController;
   Function dismissSearchBar;
   List<Book> books, shownList;
+  bool loading = true;
 
   _BooksListState(TextEditingController controller, Function function) {
     this.searchBarController = controller;
     this.dismissSearchBar = function;
+  }
+
+  getList() async {
+    Response res = await get(
+        "http://khaled.3dbeirut.com/Textbooks%20App/Scripts/Get%20Books.php");
+    List<dynamic> jsonList = jsonDecode(res.body);
+    for (int i = 0; i < jsonList.length; i++) {
+      books.add(Book(
+          title: jsonList[i][0],
+          author: jsonList[i][1],
+          date: jsonList[i][2],
+          price: jsonList[i][3],
+          image: jsonList[i][4]));
+    }
+    if (this.mounted)
+      setState(() {
+        loading = false;
+        shownList.addAll(books);
+      });
   }
 
   @override
@@ -31,35 +55,8 @@ class _BooksListState extends State<BooksList> {
     // TODO: implement initState
     super.initState();
     shownList = [];
-    books = [
-      Book(
-          title: "The Arsonist",
-          author: "Chris Hooper",
-          date: "22 June",
-          price: "15 \$",
-          image: "http://khaled.3dbeirut.com/Textbooks%20App/Images/arsonist.png"),
-      Book(
-          title:
-              "The King of Drugs The King of Drugs The King of Drugs The King of Drugs",
-          author:
-              "Nora Barrett Nora Barrett Nora Barrett Nora Barrett Nora Barrett",
-          date: "July 31",
-          price: "150 \$",
-          image: "http://khaled.3dbeirut.com/Textbooks%20App/Images/test.jpg"),
-      Book(
-          title: "The Gravity of Us",
-          author: "Khaled Jalloul",
-          date: "July 31",
-          price: "150 \$",
-          image: "http://khaled.3dbeirut.com/Textbooks%20App/Images/test2.jpg"),
-      Book(
-          title: "The Arsonist",
-          author: "Khaled Jalloul",
-          date: "July 31",
-          price: "150 \$",
-          image: "http://khaled.3dbeirut.com/Textbooks%20App/Images/arsonist.png"),
-    ];
-    shownList.addAll(books);
+    books = [];
+    getList();
     searchBarController.addListener(() {
       String text = searchBarController.text;
       shownList.clear();
@@ -75,6 +72,15 @@ class _BooksListState extends State<BooksList> {
 
   @override
   Widget build(BuildContext context) {
+    if (loading){
+      return Container(
+        color: Colors.white,
+        child: SpinKitCircle(
+          color: Color(0xFFB67777),
+          size: 70,
+        ),
+      );
+    } else
     return Container(
         color: Colors.white,
         child: ListView.builder(

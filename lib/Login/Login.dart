@@ -1,5 +1,6 @@
 import 'package:books_app/Login/Authentication.dart';
 import 'package:books_app/main.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'Register.dart';
@@ -10,22 +11,22 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  @override
-  TextEditingController emailController = new TextEditingController();
+  TextEditingController emailController, passController;
 
-  TextEditingController passController = new TextEditingController();
-
-//  Authentication auth;
+  Authentication auth = Authentication();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-//    auth = Authentication();
+    emailController = new TextEditingController();
+    passController = new TextEditingController();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.height,
@@ -129,13 +130,13 @@ class _LoginState extends State<Login> {
                   padding: EdgeInsets.symmetric(vertical: 9, horizontal: 29),
                   color: Hexcolor("#E6D3D3").withOpacity(0.54),
                   onPressed: () async {
-//                    bool result = await auth.signIn(
-//                        emailController.text, passController.text);
-//                    if (result)
-//                      Navigator.pushReplacement(
-//                          context,
-//                          MaterialPageRoute(
-//                              builder: (BuildContext context) => Home()));
+                    String result = await auth.signIn(
+                        emailController.text.trim(), passController.text.trim());
+                    if (result == "yes")
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => Home()));
                   },
                   child: Text(
                     "Sign In",
@@ -187,12 +188,12 @@ class _LoginState extends State<Login> {
                         decoration: TextDecoration.underline),
                   ),
                   onTap: () async {
-//                    bool result = await auth.anonymousSignIn();
-//                    if (result)
-//                      Navigator.pushReplacement(
-//                          context,
-//                          MaterialPageRoute(
-//                              builder: (BuildContext context) => Home()));
+                    bool result = await auth.anonymousSignIn();
+                    if (result)
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => Home()));
                   },
                 ),
               ),

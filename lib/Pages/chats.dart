@@ -41,7 +41,7 @@ class _ChatListState extends State<ChatList> {
             author: "Nora Barrett",
             date: "July 31",
             price: "150 \$",
-            image: "http://khaled.3dbeirut.com/Download%20Files/test.jpg"),
+            image: "http://khaled.3dbeirut.com/Textbooks%20App/Images/test.jpg"),
       ),
       Chat(
         id: "B37",
@@ -53,7 +53,7 @@ class _ChatListState extends State<ChatList> {
             author: "Khaled Jalloul",
             date: "July 31",
             price: "150 \$",
-            image: "http://khaled.3dbeirut.com/Download%20Files/test2.jpg"),
+            image: "http://khaled.3dbeirut.com/Textbooks%20App/Images/test2.jpg"),
       ),
       Chat(
         id: "B37",
@@ -65,7 +65,7 @@ class _ChatListState extends State<ChatList> {
             author: "Khaled Jalloul",
             date: "July 31",
             price: "150 \$",
-            image: "http://khaled.3dbeirut.com/Download%20Files/arsonist.png"),
+            image: "http://khaled.3dbeirut.com/Textbooks%20App/Images/arsonist.png"),
       ),
     ];
     shownList = [];

@@ -1,36 +1,34 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Authentication {
-  FirebaseAuth auth;
+  FirebaseAuth auth = FirebaseAuth.instance;
 
-  Authentication(){
-    auth = FirebaseAuth.instance;
-  }
   currentUser() async {
     try {
+      await Future.delayed(Duration(milliseconds: 500));
       User user = auth.currentUser;
       String email = user.email;
       return email;
     } catch (e) {
-      return null;
+      return "";
     }
   }
 
   dynamic register(email, pass) async {
     try {
       await auth.createUserWithEmailAndPassword(email: email, password: pass);
-      return true;
+      return "yes";
     } catch (e) {
-      return false;
+      return e.toString();
     }
   }
 
-  dynamic signIn(email, pass) async {
+  Future<String> signIn(email, pass) async {
     try {
       await auth.signInWithEmailAndPassword(email: email, password: pass);
-      return true;
+      return "yes";
     } catch (e) {
-      return false;
+      return e;
     }
   }
 

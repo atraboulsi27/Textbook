@@ -1,4 +1,7 @@
+import 'package:books_app/Login/Authentication.dart';
 import 'package:books_app/Login/Login.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'Pages/drawer.dart';
 import 'Pages/add_book.dart';
@@ -6,25 +9,51 @@ import 'Pages/books_list.dart';
 import 'Pages/chats.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Firebase.initializeApp();
     return MaterialApp(
       title: 'Textbooks App',
-      home: Switch(),
+      home: Loading(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
-Widget Switch() {
-  bool loggedIn = false; //firebase code to check if signed in or not
-  if (loggedIn)
-    return Home();
-  else
-    return Home();
+class Loading extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    launch(context);
+    return Container(
+      color: Colors.white,
+      child: SpinKitCircle(
+        size: 70,
+        color: Color(0xFFA07070),
+      ),
+    );
+  }
+}
+
+launch(context) async {
+  Authentication auth = Authentication();
+  String email = await auth.currentUser();
+  if (email != null) {
+    if (email.isNotEmpty)
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (BuildContext context) => Home()));
+    else
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (BuildContext context) => Login()));
+  } else
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (BuildContext context) => Login()));
 }
 
 class Home extends StatefulWidget {

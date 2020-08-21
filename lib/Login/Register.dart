@@ -1,4 +1,5 @@
 import 'package:books_app/Login/Authentication.dart';
+import 'package:books_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -25,6 +26,7 @@ class _Register extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.height,
@@ -175,8 +177,8 @@ class _Register extends State<Register> {
                                   return 'Field can\'t be empty.';
                                 } else if (value.length < 6)
                                   return "Password must be 6 or more characters";
-                                else if (passController.text !=
-                                    cpassController.text)
+                                else if (passController.text.trim() !=
+                                    cpassController.text.trim())
                                   return "Passwords do not match";
                                 else
                                   return null;
@@ -198,10 +200,14 @@ class _Register extends State<Register> {
                     color: Hexcolor("#E6D3D3").withOpacity(0.54),
                     onPressed: () async {
                       if (formKey.currentState.validate()) {
-                        bool result = await auth.register(
-                            emailController.text, passController.text);
-                        if (result) {
+                        String result = await auth.register(
+                            emailController.text.trim(), passController.text.trim());
+                        if (result=="yes") {
                           Navigator.pop(context);
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (BuildContext context) => Home()));
+                        } else{
+                          print(result);
                         }
                       }
                     },

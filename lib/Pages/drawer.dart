@@ -1,3 +1,4 @@
+import 'package:books_app/Login/Authentication.dart';
 import 'package:books_app/Login/Login.dart';
 import 'package:flutter/material.dart';
 
@@ -38,7 +39,7 @@ Widget BookDrawer(BuildContext context) {
         DrawerButton(Icons.settings, "Settings", (){}),
         DrawerButton(Icons.contacts, "Contact Us", (){}),
         DrawerButton(Icons.info, "About", (){}),
-        DrawerButton(Icons.cancel, "Sign Out", (){Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => Login()));}),
+        DrawerButton(Icons.cancel, "Sign Out", (){Authentication().signOut(); Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => Login()));}),
       ],
     ),
   );

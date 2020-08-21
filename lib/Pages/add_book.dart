@@ -36,7 +36,7 @@ class _AddBookState extends State<AddBook> {
           author: "Chris Hooper",
           date: "22 June",
           price: "15 \$",
-          image: "http://khaled.3dbeirut.com/Download%20Files/arsonist.png"),
+          image: "http://khaled.3dbeirut.com/Textbooks%20App/Images/arsonist.png"),
       Book(
           title:
               "The King of Drugs The King of Drugs The King of Drugs The King of Drugs",
@@ -44,7 +44,7 @@ class _AddBookState extends State<AddBook> {
               "Nora Barrett Nora Barrett Nora Barrett Nora Barrett Nora Barrett",
           date: "July 31",
           price: "150 \$",
-          image: "http://khaled.3dbeirut.com/Download%20Files/test.jpg"),
+          image: "http://khaled.3dbeirut.com/Textbooks%20App/Images/test.jpg"),
     ];
     shownList.addAll(books);
     searchBarController.addListener(() {
