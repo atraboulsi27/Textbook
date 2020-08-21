@@ -24,7 +24,7 @@ Widget Switch() {
   if (loggedIn)
     return Home();
   else
-    return Login();
+    return Home();
 }
 
 class Home extends StatefulWidget {

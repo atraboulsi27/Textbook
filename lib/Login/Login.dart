@@ -1,12 +1,28 @@
+import 'package:books_app/Login/Authentication.dart';
 import 'package:books_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'Register.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
+  @override
+  _LoginState createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
   @override
   TextEditingController emailController = new TextEditingController();
 
+  TextEditingController passController = new TextEditingController();
+
+//  Authentication auth;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+//    auth = Authentication();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,7 +100,8 @@ class Login extends StatelessWidget {
                           height: 52.0,
                           width: 301,
                           child: TextFormField(
-                            controller: emailController,
+                            controller: passController,
+                            obscureText: true,
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: Hexcolor("#FFFFFF"),
@@ -111,10 +128,15 @@ class Login extends StatelessWidget {
                       side: BorderSide(color: Hexcolor("#707070"))),
                   padding: EdgeInsets.symmetric(vertical: 9, horizontal: 29),
                   color: Hexcolor("#E6D3D3").withOpacity(0.54),
-                  onPressed: () => Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => Home())),
+                  onPressed: () async {
+//                    bool result = await auth.signIn(
+//                        emailController.text, passController.text);
+//                    if (result)
+//                      Navigator.pushReplacement(
+//                          context,
+//                          MaterialPageRoute(
+//                              builder: (BuildContext context) => Home()));
+                  },
                   child: Text(
                     "Sign In",
                     style: TextStyle(
@@ -155,13 +177,23 @@ class Login extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 38, 0, 0),
               child: Center(
-                child: Text(
-                  "Continue without login",
-                  style: TextStyle(
-                      fontFamily: "selawk",
-                      fontSize: 22,
-                      color: Colors.white,
-                      decoration: TextDecoration.underline),
+                child: InkWell(
+                  child: Text(
+                    "Continue without login",
+                    style: TextStyle(
+                        fontFamily: "selawk",
+                        fontSize: 22,
+                        color: Colors.white,
+                        decoration: TextDecoration.underline),
+                  ),
+                  onTap: () async {
+//                    bool result = await auth.anonymousSignIn();
+//                    if (result)
+//                      Navigator.pushReplacement(
+//                          context,
+//                          MaterialPageRoute(
+//                              builder: (BuildContext context) => Home()));
+                  },
                 ),
               ),
             ),

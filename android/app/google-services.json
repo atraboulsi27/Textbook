@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "137567715530",
+    "firebase_url": "https://textbooks-leb.firebaseio.com",
+    "project_id": "textbooks-leb",
+    "storage_bucket": "textbooks-leb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:137567715530:android:4933d4c89b7ecff6b77433",
+        "android_client_info": {
+          "package_name": "com.quelderspark.books_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "137567715530-v3b7m9ssed6pdrr07udebp6gussmemn2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmdOZ3yWB44e9XbKKH5gwKk7XztYM1fFw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "137567715530-v3b7m9ssed6pdrr07udebp6gussmemn2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
