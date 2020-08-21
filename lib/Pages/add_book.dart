@@ -11,7 +11,8 @@ class AddBook extends StatefulWidget {
   }
 
   @override
-  _AddBookState createState() => _AddBookState(searchBarController, dismissSearchBar);
+  _AddBookState createState() =>
+      _AddBookState(searchBarController, dismissSearchBar);
 }
 
 class _AddBookState extends State<AddBook> {

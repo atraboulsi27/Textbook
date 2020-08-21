@@ -1,3 +1,5 @@
+import 'package:books_app/Login/Login.dart';
+
 import 'Pages/drawer.dart';
 import 'Pages/add_book.dart';
 import 'Pages/books_list.dart';
@@ -22,7 +24,7 @@ Widget Switch() {
   if (loggedIn)
     return Home();
   else
-    return Home();
+    return Login();
 }
 
 class Home extends StatefulWidget {
@@ -37,8 +39,6 @@ class _HomeState extends State<Home> {
   IconData appBarIcon;
   Widget appBarContent, appBarText, appBarField;
   TextEditingController appBarController;
-
-
 
   setAppBar() {
     appBarText = Text(
@@ -74,7 +74,7 @@ class _HomeState extends State<Home> {
     // TODO: implement initState
     super.initState();
     appBarController = TextEditingController();
-    Function dismissSearchBar = (){
+    Function dismissSearchBar = () {
       setState(() {
         appBarIcon = Icons.search;
         appBarContent = appBarText;

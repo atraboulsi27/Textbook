@@ -12,7 +12,8 @@ class ChatList extends StatefulWidget {
   }
 
   @override
-  _ChatListState createState() => _ChatListState(searchBarController, dismissSearchBar);
+  _ChatListState createState() =>
+      _ChatListState(searchBarController, dismissSearchBar);
 }
 
 class _ChatListState extends State<ChatList> {
