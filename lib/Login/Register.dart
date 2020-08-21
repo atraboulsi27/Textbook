@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-class Register extends StatefulWidget{
+
+class Register extends StatefulWidget {
   @override
   _Register createState() => _Register();
 }
 
-class _Register extends State<Register>{
+class _Register extends State<Register> {
   TextEditingController emailController = new TextEditingController();
   TextEditingController passController = new TextEditingController();
   TextEditingController cpassController = new TextEditingController();
@@ -177,5 +178,4 @@ class _Register extends State<Register>{
       ),
     );
   }
-
 }

@@ -61,11 +61,11 @@ class BookDetails extends StatelessWidget {
                 ),
               ),
             ),
-            Label(Icons.book, book.title,context),
-            Label(Icons.edit, book.author,context),
-            Label(Icons.calendar_today, book.date,context),
-            Label(Icons.monetization_on, book.price,context),
-            Label(Icons.description, "Description?",context),
+            Label(Icons.book, book.title, context),
+            Label(Icons.edit, book.author, context),
+            Label(Icons.calendar_today, book.date, context),
+            Label(Icons.monetization_on, book.price, context),
+            Label(Icons.description, "Description?", context),
           ],
         ),
       ),
@@ -87,7 +87,7 @@ class BookDetails extends StatelessWidget {
   }
 }
 
-Widget Label(IconData icon, String info,BuildContext context) {
+Widget Label(IconData icon, String info, BuildContext context) {
   return Padding(
     padding: const EdgeInsets.all(10),
     child: Row(
@@ -100,7 +100,7 @@ Widget Label(IconData icon, String info,BuildContext context) {
           ),
         ),
         Container(
-          width: MediaQuery.of(context).size.width*0.7,
+          width: MediaQuery.of(context).size.width * 0.7,
           child: AutoSizeText(
             info,
             maxFontSize: 22,

@@ -1,9 +1,7 @@
-import 'package:books_app/Pages/drawer.dart';
-
+import 'Pages/drawer.dart';
 import 'Pages/add_book.dart';
 import 'Pages/books_list.dart';
 import 'Pages/chats.dart';
-import 'package:books_app/Login/Login.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -24,7 +22,7 @@ Widget Switch() {
   if (loggedIn)
     return Home();
   else
-    return Login();
+    return Home();
 }
 
 class Home extends StatefulWidget {
@@ -34,8 +32,69 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int currentIndex = 0;
-  Map<int, Widget> pageMap = {0: BooksList(), 1: AddBook(), 2: ChatList()};
+  Map<int, Widget> pageMap;
   Map<int, String> titleMap = {0: "Text Books", 1: "Add Book", 2: "Chats"};
+  IconData appBarIcon;
+  Widget appBarContent, appBarText, appBarField;
+  TextEditingController appBarController;
+
+
+
+  setAppBar() {
+    appBarText = Text(
+      titleMap[currentIndex],
+      style: TextStyle(
+          letterSpacing: 2,
+          color: Color(0xFFB67777),
+          fontFamily: "selawk",
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+          fontStyle: FontStyle.italic),
+    );
+    appBarField = TextField(
+      decoration: InputDecoration(
+        border: InputBorder.none,
+        hintText: "Search for " + (currentIndex == 2 ? "chat..." : "book..."),
+        hintStyle: TextStyle(
+          fontFamily: "selawk",
+        ),
+      ),
+      cursorColor: Color(0xFFB67777),
+      style: TextStyle(
+          color: Color(0xFFB67777), fontFamily: "selawk", fontSize: 17),
+      controller: appBarController,
+      autofocus: false,
+    );
+    appBarIcon = Icons.search;
+    appBarContent = appBarText;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    appBarController = TextEditingController();
+    Function dismissSearchBar = (){
+      setState(() {
+        appBarIcon = Icons.search;
+        appBarContent = appBarText;
+        appBarController.clear();
+      });
+    };
+    pageMap = {
+      0: BooksList(appBarController, dismissSearchBar),
+      1: AddBook(appBarController, dismissSearchBar),
+      2: ChatList(appBarController, dismissSearchBar)
+    };
+    setAppBar();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    appBarController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,27 +102,33 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         iconTheme: IconThemeData(color: Color(0xFFB67777)),
         centerTitle: true,
-        title: Text(
-          titleMap[currentIndex],
-          style: TextStyle(
-              letterSpacing: 2,
-              color: Color(0xFFB67777),
-              fontFamily: "selawk",
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              fontStyle: FontStyle.italic),
-        ),
+        title: appBarContent,
         backgroundColor: Colors.white,
         elevation: 0,
         actions: [
-          Icon(
-            Icons.search,
+          IconButton(
+            icon: Icon(
+              appBarIcon,
+            ),
+            onPressed: () {
+              setState(() {
+                if (appBarIcon == Icons.search) {
+                  appBarIcon = Icons.cancel;
+                  appBarContent = appBarField;
+                } else if (appBarIcon == Icons.cancel) {
+                  appBarIcon = Icons.search;
+                  appBarContent = appBarText;
+                  appBarController.clear();
+                }
+              });
+            },
           ),
           Container(
             width: 20,
           )
         ],
         bottom: PreferredSize(
+          preferredSize: Size(double.infinity, 2),
           child: Container(
             color: Color(0xFFB67777),
             height: 2,
@@ -82,6 +147,8 @@ class _HomeState extends State<Home> {
         onTap: (index) {
           setState(() {
             currentIndex = index;
+            setAppBar();
+            appBarController.clear();
           });
         },
         items: [

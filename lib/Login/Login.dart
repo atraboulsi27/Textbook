@@ -5,7 +5,6 @@ import 'Register.dart';
 
 class Login extends StatelessWidget {
   @override
-
   TextEditingController emailController = new TextEditingController();
 
   @override
@@ -112,7 +111,10 @@ class Login extends StatelessWidget {
                       side: BorderSide(color: Hexcolor("#707070"))),
                   padding: EdgeInsets.symmetric(vertical: 9, horizontal: 29),
                   color: Hexcolor("#E6D3D3").withOpacity(0.54),
-                  onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => Home())),
+                  onPressed: () => Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => Home())),
                   child: Text(
                     "Sign In",
                     style: TextStyle(

@@ -3,23 +3,27 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'book_details.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
-class Book{
+class Book {
   String title, author, date, price, image;
+
   Book({this.title, this.author, this.date, this.price, this.image});
 }
 
-class Chat{
+class Chat {
   String id, buyer, seller;
   int status;
   Book book;
+
   Chat({this.id, this.buyer, this.seller, this.status, this.book});
 }
 
 class BookCard extends StatelessWidget {
   Book book;
+  Function dismissSearchBar;
 
-  BookCard(Book book) {
+  BookCard(Book book, Function function) {
     this.book = book;
+    this.dismissSearchBar = function;
   }
 
   @override
@@ -28,7 +32,12 @@ class BookCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 10),
       child: InkWell(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=> BookDetails(book)));
+          FocusScope.of(context).unfocus();
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => BookDetails(book)));
+          dismissSearchBar.call();
         },
         child: Card(
           elevation: 0,
@@ -40,16 +49,13 @@ class BookCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.fromLTRB(3, 3, 8, 3),
                 child: Container(
-                  child: Container(
-                      width: 90
-                  ),
+                  child: Container(width: 90),
                   decoration: BoxDecoration(
                       border: Border.all(color: Color(0xFF804A4A), width: 5),
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       image: DecorationImage(
                         image: CachedNetworkImageProvider(book.image),
-                      )
-                  ),
+                      )),
                 ),
               ),
               Expanded(
@@ -58,14 +64,17 @@ class BookCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     AutoSizeText(
-                      book.title,maxFontSize: 22,maxLines: 2,minFontSize: 16,
-                      style:
-                      TextStyle(color: Color(0xFF706161)),
+                      book.title,
+                      maxFontSize: 22,
+                      maxLines: 2,
+                      minFontSize: 16,
+                      style: TextStyle(color: Color(0xFF706161)),
                     ),
                     AutoSizeText(
-                      book.author, maxLines: 1,maxFontSize: 12,
-                      style:
-                      TextStyle(color: Color(0xFF706161)),
+                      book.author,
+                      maxLines: 1,
+                      maxFontSize: 12,
+                      style: TextStyle(color: Color(0xFF706161)),
                     ),
                     Align(
                       alignment: Alignment.centerRight,
@@ -85,13 +94,11 @@ class BookCard extends StatelessWidget {
                     ),
                     Text(
                       book.date,
-                      style:
-                      TextStyle(fontSize: 12, color: Color(0xFF706161)),
+                      style: TextStyle(fontSize: 12, color: Color(0xFF706161)),
                     ),
                     Text(
                       book.price,
-                      style:
-                      TextStyle(fontSize: 21, color: Color(0xFF706161)),
+                      style: TextStyle(fontSize: 21, color: Color(0xFF706161)),
                     ),
                   ],
                 ),
