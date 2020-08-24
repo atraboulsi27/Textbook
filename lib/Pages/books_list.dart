@@ -41,7 +41,9 @@ class _BooksListState extends State<BooksList> {
           author: jsonList[i][1],
           date: jsonList[i][2],
           price: jsonList[i][3],
-          image: jsonList[i][4]));
+          image: jsonList[i][4],
+      sellerEmail: jsonList[i][5],
+      sellerName: jsonList[i][6]));
     }
     if (this.mounted)
       setState(() {

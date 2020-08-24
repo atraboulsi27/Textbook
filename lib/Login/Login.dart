@@ -1,6 +1,5 @@
 import 'package:books_app/Login/Authentication.dart';
 import 'package:books_app/main.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'Register.dart';
@@ -132,7 +131,7 @@ class _LoginState extends State<Login> {
                   onPressed: () async {
                     String result = await auth.signIn(
                         emailController.text.trim(), passController.text.trim());
-                    if (result == "yes")
+                    if (result == "[SUCCESS]")
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(

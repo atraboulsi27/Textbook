@@ -4,9 +4,9 @@ import 'book_details.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 class Book {
-  String title, author, date, price, image;
+  String title, author, date, price, image, sellerEmail, sellerName;
 
-  Book({this.title, this.author, this.date, this.price, this.image});
+  Book({this.title, this.author, this.date, this.price, this.image, this.sellerEmail, this.sellerName});
 }
 
 class Chat {

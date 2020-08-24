@@ -10,7 +10,10 @@ class Register extends StatefulWidget {
 
 class _Register extends State<Register> {
   Authentication auth = Authentication();
-  TextEditingController emailController, passController, cpassController;
+  TextEditingController nameController,
+      emailController,
+      passController,
+      cpassController;
   GlobalKey<FormState> formKey;
 
   @override
@@ -18,6 +21,7 @@ class _Register extends State<Register> {
     // TODO: implement initState
     super.initState();
     formKey = GlobalKey<FormState>();
+    nameController = TextEditingController();
     emailController = TextEditingController();
     passController = TextEditingController();
     cpassController = TextEditingController();
@@ -48,6 +52,50 @@ class _Register extends State<Register> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                        child: Text(
+                          "Display Name",
+                          style: TextStyle(
+                              fontFamily: 'selawk',
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontStyle: FontStyle.italic),
+                        ),
+                      ),
+                      Opacity(
+                        opacity: 0.8,
+                        child: Container(
+                          height: 52.0,
+                          width: 301,
+                          child: TextFormField(
+                            controller: nameController,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Hexcolor("#FFFFFF"),
+                              border: OutlineInputBorder(
+                                  borderRadius: const BorderRadius.all(
+                                    const Radius.circular(0),
+                                  ),
+                                  borderSide: BorderSide(
+                                    color: Hexcolor("#707070"),
+                                  )),
+                            ),
+                            validator: (value) {
+                              if (value.isEmpty)
+                                return 'Field can\'t be empty.';
+                              else
+                                return null;
+                            },
+                          ),
+                        ),
+                      ),
+                    ]),
+              ),
+              Center(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
                         child: Text(
                           "Email",
                           style: TextStyle(
@@ -201,12 +249,16 @@ class _Register extends State<Register> {
                     onPressed: () async {
                       if (formKey.currentState.validate()) {
                         String result = await auth.register(
-                            emailController.text.trim(), passController.text.trim());
-                        if (result=="yes") {
-                          Navigator.pop(context);
-                          Navigator.pushReplacement(context,
-                              MaterialPageRoute(builder: (BuildContext context) => Home()));
-                        } else{
+                            emailController.text.trim(),
+                            nameController.text.trim(),
+                            passController.text.trim());
+                        if (result == "[SUCCESS]") {
+                            Navigator.pop(context);
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) => Home()));
+                        } else {
                           print(result);
                         }
                       }
