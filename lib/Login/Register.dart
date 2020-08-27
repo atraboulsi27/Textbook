@@ -18,7 +18,6 @@ class _Register extends State<Register> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     formKey = GlobalKey<FormState>();
     nameController = TextEditingController();
@@ -44,7 +43,7 @@ class _Register extends State<Register> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                height: MediaQuery.of(context).size.height / 5,
+                height: MediaQuery.of(context).size.height / 7,
               ),
               Center(
                 child: Column(
@@ -64,11 +63,12 @@ class _Register extends State<Register> {
                       Opacity(
                         opacity: 0.8,
                         child: Container(
-                          height: 52.0,
                           width: 301,
+                          height: 75,
                           child: TextFormField(
                             controller: nameController,
                             decoration: InputDecoration(
+                              helperText: ' ',
                               filled: true,
                               fillColor: Hexcolor("#FFFFFF"),
                               border: OutlineInputBorder(
@@ -95,7 +95,7 @@ class _Register extends State<Register> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
                         child: Text(
                           "Email",
                           style: TextStyle(
@@ -108,11 +108,12 @@ class _Register extends State<Register> {
                       Opacity(
                         opacity: 0.8,
                         child: Container(
-                          height: 52.0,
+                          height: 75,
                           width: 301,
                           child: TextFormField(
                             controller: emailController,
                             decoration: InputDecoration(
+                              helperText: ' ',
                               filled: true,
                               fillColor: Hexcolor("#FFFFFF"),
                               border: OutlineInputBorder(
@@ -154,12 +155,13 @@ class _Register extends State<Register> {
                         Opacity(
                           opacity: 0.8,
                           child: Container(
-                            height: 52.0,
+                            height: 75,
                             width: 301,
                             child: TextFormField(
                               controller: passController,
                               obscureText: true,
                               decoration: InputDecoration(
+                                helperText: ' ',
                                 filled: true,
                                 fillColor: Hexcolor("#FFFFFF"),
                                 border: OutlineInputBorder(
@@ -204,12 +206,13 @@ class _Register extends State<Register> {
                         Opacity(
                           opacity: 0.8,
                           child: Container(
-                            height: 52.0,
+                            height: 75,
                             width: 301,
                             child: TextFormField(
                               controller: cpassController,
                               obscureText: true,
                               decoration: InputDecoration(
+                                helperText: ' ',
                                 filled: true,
                                 fillColor: Hexcolor("#FFFFFF"),
                                 border: OutlineInputBorder(
@@ -253,11 +256,11 @@ class _Register extends State<Register> {
                             nameController.text.trim(),
                             passController.text.trim());
                         if (result == "[SUCCESS]") {
-                            Navigator.pop(context);
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) => Home()));
+                          Navigator.pop(context);
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) => Home()));
                         } else {
                           print(result);
                         }
