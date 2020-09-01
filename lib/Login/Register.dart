@@ -15,8 +15,7 @@ class _Register extends State<Register> {
       passController,
       cpassController;
   GlobalKey<FormState> formKey;
-
-  @override
+    @override
   void initState() {
     super.initState();
     formKey = GlobalKey<FormState>();
@@ -240,6 +239,7 @@ class _Register extends State<Register> {
                       ]),
                 ),
               ),
+
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 33, 0, 0),
                 child: Center(

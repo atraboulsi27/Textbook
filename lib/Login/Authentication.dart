@@ -26,6 +26,12 @@ class Authentication {
       else
         return "[FAIL]";
     } catch (e) {
+      switch(e.code){
+        case "invalid-email":
+          return "Enter a proper email address";
+        case "email-already-exists":
+          return "An account already exists with this email";
+      }
       return e.toString();
     }
   }
@@ -35,7 +41,14 @@ class Authentication {
       await auth.signInWithEmailAndPassword(email: email, password: pass);
       return "[SUCCESS]";
     } catch (e) {
-      return e;
+      print(e.code);
+      switch (e.code) {
+        case "wrong-password":
+          return "Enter a valid password";
+        case "user-not-found":
+          return "No account exists with this email.";
+      }
+      return e.message;
     }
   }
 
