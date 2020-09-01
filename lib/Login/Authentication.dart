@@ -47,6 +47,8 @@ class Authentication {
           return "Enter a valid password";
         case "user-not-found":
           return "No account exists with this email.";
+        case "invalid-email":
+          return "Email address is badly formatted.";
       }
       return e.message;
     }
