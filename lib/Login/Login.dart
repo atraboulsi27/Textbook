@@ -1,11 +1,11 @@
 import 'package:books_app/Login/Authentication.dart';
 import 'package:books_app/main.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'Register.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-
-String error = "";
 
 class Login extends StatefulWidget {
   @override
@@ -15,7 +15,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   TextEditingController emailController, passController;
   GlobalKey<FormState> formKey;
-
+  String status;
   Authentication auth = Authentication();
 
   @override
@@ -23,9 +23,51 @@ class _LoginState extends State<Login> {
     // TODO: implement initState
     super.initState();
     formKey = GlobalKey<FormState>();
-
+    status = "";
     emailController = new TextEditingController();
     passController = new TextEditingController();
+  }
+
+  Widget loadingError() {
+    if (status == "")
+      return Container();
+    else if (status == "loading")
+      return SpinKitCircle(
+        color: Colors.white,
+        size: 30,
+      );
+    else
+      return Center(
+        child: Container(
+            height: 30,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(20),
+                ),
+                color: Color(0xAAFFFFFF)),
+            width: MediaQuery.of(context).size.width / 1.5,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 7),
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Icon(
+                      Icons.error,
+                      size: 20,
+                      color: Colors.red[400],
+                    ),
+                    AutoSizeText(
+                      status,
+                      minFontSize: 15,
+                      style: TextStyle(
+                          color: Colors.red[400], fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+            )),
+      );
   }
 
   @override
@@ -143,18 +185,7 @@ class _LoginState extends State<Login> {
                       ]),
                 ),
               ),
-              error == ""
-                  ? Container()
-                  : Center(
-                      child: Container(
-                          height: 40,
-                          width: MediaQuery.of(context).size.width / 1.5,
-                          child: AutoSizeText(
-                            error,
-                            minFontSize: 15,
-                            style: TextStyle(color: Colors.redAccent.shade100),
-                          )),
-                    ),
+              loadingError(),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 28, 0, 0),
                 child: Center(
@@ -165,7 +196,13 @@ class _LoginState extends State<Login> {
                     padding: EdgeInsets.symmetric(vertical: 9, horizontal: 29),
                     color: Hexcolor("#E6D3D3").withOpacity(0.54),
                     onPressed: () async {
+                      setState(() {
+                        status = "";
+                      });
                       if (formKey.currentState.validate()) {
+                        setState(() {
+                          status = "loading";
+                        });
                         String result = await auth.signIn(
                             emailController.text.trim(),
                             passController.text.trim());
@@ -176,7 +213,7 @@ class _LoginState extends State<Login> {
                                   builder: (BuildContext context) => Home()));
                         } else {
                           setState(() {
-                            error = result;
+                            status = result;
                           });
                         }
                       }
@@ -231,6 +268,9 @@ class _LoginState extends State<Login> {
                           decoration: TextDecoration.underline),
                     ),
                     onTap: () async {
+                      setState(() {
+                        status = "loading";
+                      });
                       bool result = await auth.anonymousSignIn();
                       if (result)
                         Navigator.pushReplacement(
