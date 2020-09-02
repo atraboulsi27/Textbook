@@ -1,6 +1,5 @@
 import 'dart:convert';
-
-import 'package:books_app/Login/user_details.dart';
+import 'package:books_app/Helper%20Classes/user_details.dart';
 import 'package:books_app/Pages/add_book.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -35,16 +34,19 @@ class _MyBooksState extends State<MyBooks> {
   getList() async {
     Response res = await get(
         "http://khaled.3dbeirut.com/Textbooks%20App/Scripts/Get%20My%20Books.php?email=${UserDetails.email}");
-    List<dynamic> jsonList = jsonDecode(res.body);
-    for (int i = 0; i < jsonList.length; i++) {
-      books.add(Book(
-          title: jsonList[i][0],
-          author: jsonList[i][1],
-          date: jsonList[i][2],
-          price: jsonList[i][3],
-          image: jsonList[i][4],
-          sellerEmail: jsonList[i][5],
-          sellerName: jsonList[i][6]));
+    if (res.body != "[EMPTY]") {
+      List<dynamic> jsonList = jsonDecode(res.body);
+      for (int i = 0; i < jsonList.length; i++) {
+        books.add(Book(
+            id: jsonList[i][0],
+            title: jsonList[i][1],
+            author: jsonList[i][2],
+            date: jsonList[i][3],
+            price: jsonList[i][4],
+            image: jsonList[i][5],
+            sellerEmail: jsonList[i][6],
+            sellerName: jsonList[i][7]));
+      }
     }
     if (this.mounted)
       setState(() {
@@ -59,8 +61,10 @@ class _MyBooksState extends State<MyBooks> {
     super.initState();
     shownList = [];
     books = [];
-    if (UserDetails.email != "anon") getList();
-    else loading = false;
+    if (UserDetails.email != "anon")
+      getList();
+    else
+      loading = false;
     searchBarController.addListener(() {
       String text = searchBarController.text;
       shownList.clear();
@@ -97,34 +101,34 @@ class _MyBooksState extends State<MyBooks> {
         ),
       );
     else
-    return Scaffold(
-      body: Container(
-        color: Colors.white,
-        child: ListView.builder(
-            itemCount: shownList.length,
-            itemBuilder: (context, index) {
-              return BookCard(shownList[index], dismissSearchBar);
-            }),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Container(
-          constraints: BoxConstraints.expand(),
-          child: Icon(
-            Icons.add,
-          ),
-          decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(color: Colors.green, width: 3)),
+      return Scaffold(
+        body: Container(
+          color: Colors.white,
+          child: ListView.builder(
+              itemCount: shownList.length,
+              itemBuilder: (context, index) {
+                return BookCard(shownList[index], dismissSearchBar);
+              }),
         ),
-        foregroundColor: Colors.green,
-        backgroundColor: Colors.white,
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) => AddBook()));
-        },
-      ),
-    );
+        floatingActionButton: FloatingActionButton(
+          child: Container(
+            constraints: BoxConstraints.expand(),
+            child: Icon(
+              Icons.add,
+            ),
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.green, width: 3)),
+          ),
+          foregroundColor: Colors.green,
+          backgroundColor: Colors.white,
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => AddBook()));
+          },
+        ),
+      );
   }
 }

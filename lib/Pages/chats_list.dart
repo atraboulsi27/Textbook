@@ -1,81 +1,89 @@
+import 'dart:convert';
+import 'package:books_app/Helper%20Classes/user_details.dart';
+import 'package:books_app/Pages/chat.dart';
 import 'package:books_app/Pages/classes.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:http/http.dart';
 
-class ChatList extends StatefulWidget {
+class ChatsList extends StatefulWidget {
   TextEditingController searchBarController;
   Function dismissSearchBar;
 
-  ChatList(TextEditingController controller, Function function) {
+  ChatsList(TextEditingController controller, Function function) {
     this.searchBarController = controller;
     this.dismissSearchBar = function;
   }
 
   @override
-  _ChatListState createState() =>
-      _ChatListState(searchBarController, dismissSearchBar);
+  _ChatsListState createState() =>
+      _ChatsListState(searchBarController, dismissSearchBar);
 }
 
-class _ChatListState extends State<ChatList> {
+class _ChatsListState extends State<ChatsList> {
   TextEditingController searchBarController;
   Function dismissSearchBar;
   List<Chat> chats, shownList;
+  bool loading;
 
-  _ChatListState(TextEditingController controller, Function function) {
+  _ChatsListState(TextEditingController controller, Function function) {
     this.searchBarController = controller;
     this.dismissSearchBar = function;
+    loading = true;
+  }
+
+  Future<Book> getBook(int id) async {
+    Response res = await get(
+        "http://khaled.3dbeirut.com/Textbooks%20App/Scripts/Get%20Books.php?id=$id");
+    List<dynamic> jsonList = jsonDecode(res.body);
+    return Book(
+        id: jsonList[0],
+        title: jsonList[1],
+        author: jsonList[2],
+        date: jsonList[3],
+        price: jsonList[4],
+        image: jsonList[5],
+        sellerEmail: jsonList[6],
+        sellerName: jsonList[7]);
+  }
+
+  getChats() async {
+    Response res = await get(
+        "http://khaled.3dbeirut.com/Textbooks%20App/Scripts/Get%20Chats.php?email=${UserDetails.email}");
+    if (res.body != "[EMPTY]") {
+      List<dynamic> jsonList = jsonDecode(res.body);
+      for (int i = 0; i < jsonList.length; i++) {
+        chats.add(Chat(
+            id: jsonList[i][0],
+            user1: jsonList[i][1],
+            user2: jsonList[i][2],
+            status: int.parse(jsonList[i][3]),
+            book: await getBook(int.parse(jsonList[i][4]))));
+      }
+    }
+    if (this.mounted)
+      setState(() {
+        loading = false;
+        shownList.addAll(chats);
+      });
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    chats = [
-      Chat(
-        id: "B37",
-        buyer: "Khaled Jalloul",
-        seller: "Ahmad Traboulsi",
-        status: 0,
-        book: Book(
-            title: "The King of Drugs",
-            author: "Nora Barrett",
-            date: "July 31",
-            price: "150 \$",
-            image: "http://khaled.3dbeirut.com/Textbooks%20App/Images/test.jpg"),
-      ),
-      Chat(
-        id: "B37",
-        buyer: "Khaled Jalloul",
-        seller: "Ahmad Traboulsi",
-        status: 1,
-        book: Book(
-            title: "The Gravity of Us",
-            author: "Khaled Jalloul",
-            date: "July 31",
-            price: "150 \$",
-            image: "http://khaled.3dbeirut.com/Textbooks%20App/Images/test2.jpg"),
-      ),
-      Chat(
-        id: "B37",
-        buyer: "Khaled Jalloul",
-        seller: "Ahmad Traboulsi",
-        status: 2,
-        book: Book(
-            title: "The Arsonist",
-            author: "Khaled Jalloul",
-            date: "July 31",
-            price: "150 \$",
-            image: "http://khaled.3dbeirut.com/Textbooks%20App/Images/arsonist.png"),
-      ),
-    ];
     shownList = [];
-    shownList.addAll(chats);
+    chats = [];
+    getChats();
     searchBarController.addListener(() {
       String text = searchBarController.text;
       shownList.clear();
       for (int i = 0; i < chats.length; i++) {
-        if (chats[i].buyer.toLowerCase().contains(text.toLowerCase()) ||
-            chats[i].seller.toLowerCase().contains(text.toLowerCase()) ||
+        String otherUser = (chats[i].user1 == UserDetails.name)
+            ? chats[i].user2
+            : chats[i].user1;
+        if (otherUser.toLowerCase().contains(text.toLowerCase()) ||
             chats[i].book.title.toLowerCase().contains(text.toLowerCase())) {
           shownList.add(chats[i]);
         }
@@ -86,22 +94,45 @@ class _ChatListState extends State<ChatList> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: ListView.builder(
-            itemCount: shownList.length,
-            itemBuilder: (context, index) {
-              return ChatCard(shownList[index], dismissSearchBar);
-            }));
+    if (loading)
+      return Container(
+        color: Colors.white,
+        child: SpinKitCircle(
+          color: Color(0xFFB67777),
+          size: 70,
+        ),
+      );
+    else if (UserDetails.email == "anon")
+      return Center(
+        child: Container(
+          child: Text("Please sign in to be able to buy books."),
+        ),
+      );
+    else if (chats.isEmpty)
+      return Center(
+        child: Container(
+          child: Text("You have not started any chats."),
+        ),
+      );
+    else
+      return Container(
+          child: ListView.builder(
+              itemCount: shownList.length,
+              itemBuilder: (context, index) {
+                return ChatCard(shownList[index], dismissSearchBar);
+              }));
   }
 }
 
 class ChatCard extends StatelessWidget {
   Chat chat;
   Function dismissSearchBar;
+  String otherUser;
 
   ChatCard(Chat chat, Function function) {
     this.chat = chat;
     this.dismissSearchBar = function;
+    otherUser = (chat.user1 == UserDetails.name) ? chat.user2 : chat.user1;
   }
 
   @override
@@ -112,6 +143,12 @@ class ChatCard extends StatelessWidget {
         onTap: () {
           FocusScope.of(context).unfocus();
           dismissSearchBar.call();
+
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      ChatPage(chat.id, otherUser, chat.book.title)));
         },
         child: Card(
           elevation: 0,
@@ -141,7 +178,7 @@ class ChatCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "With ${chat.seller}",
+                      "With ${chat.user1}",
                       style: TextStyle(fontSize: 14, color: Color(0xFF706161)),
                     ),
                     Padding(

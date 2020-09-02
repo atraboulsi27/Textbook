@@ -34,16 +34,19 @@ class _BooksListState extends State<BooksList> {
   getList() async {
     Response res = await get(
         "http://khaled.3dbeirut.com/Textbooks%20App/Scripts/Get%20Books.php");
-    List<dynamic> jsonList = jsonDecode(res.body);
-    for (int i = 0; i < jsonList.length; i++) {
-      books.add(Book(
-          title: jsonList[i][0],
-          author: jsonList[i][1],
-          date: jsonList[i][2],
-          price: jsonList[i][3],
-          image: jsonList[i][4],
-      sellerEmail: jsonList[i][5],
-      sellerName: jsonList[i][6]));
+    if (res.body != "[EMPTY]") {
+      List<dynamic> jsonList = jsonDecode(res.body);
+      for (int i = 0; i < jsonList.length; i++) {
+        books.add(Book(
+            id: jsonList[i][0],
+            title: jsonList[i][1],
+            author: jsonList[i][2],
+            date: jsonList[i][3],
+            price: jsonList[i][4],
+            image: jsonList[i][5],
+            sellerEmail: jsonList[i][6],
+            sellerName: jsonList[i][7]));
+      }
     }
     if (this.mounted)
       setState(() {
@@ -74,7 +77,7 @@ class _BooksListState extends State<BooksList> {
 
   @override
   Widget build(BuildContext context) {
-    if (loading){
+    if (loading)
       return Container(
         color: Colors.white,
         child: SpinKitCircle(
@@ -82,13 +85,19 @@ class _BooksListState extends State<BooksList> {
           size: 70,
         ),
       );
-    } else
-    return Container(
-        color: Colors.white,
-        child: ListView.builder(
-            itemCount: shownList.length,
-            itemBuilder: (context, index) {
-              return BookCard(shownList[index], dismissSearchBar);
-            }));
+    else if (books.isEmpty)
+      return Center(
+        child: Container(
+          child: Text("There are no books currently for sale."),
+        ),
+      );
+    else
+      return Container(
+          color: Colors.white,
+          child: ListView.builder(
+              itemCount: shownList.length,
+              itemBuilder: (context, index) {
+                return BookCard(shownList[index], dismissSearchBar);
+              }));
   }
 }

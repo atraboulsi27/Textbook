@@ -1,14 +1,32 @@
-import 'package:books_app/Pages/classes.dart';
+import 'package:books_app/Helper%20Classes/firestore_helper.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+import 'classes.dart';
+import 'package:books_app/Helper%20Classes/user_details.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
-class BookDetails extends StatelessWidget {
+class BookDetails extends StatefulWidget {
   Book book;
 
   BookDetails(Book book) {
     this.book = book;
+  }
+
+  @override
+  _BookDetailsState createState() => _BookDetailsState(book);
+}
+
+class _BookDetailsState extends State<BookDetails> {
+  bool isMyBook, loading;
+  Book book;
+
+  _BookDetailsState(Book book) {
+    this.book = book;
+    isMyBook = book.sellerEmail == UserDetails.email;
+    loading = false;
   }
 
   @override
@@ -44,7 +62,7 @@ class BookDetails extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: CachedNetworkImageProvider(book.image),
+                        image: CachedNetworkImageProvider(widget.book.image),
                         fit: BoxFit.fill),
                     border: Border.all(color: Color(0xFF804A4A), width: 4),
                     borderRadius: BorderRadius.circular(20),
@@ -61,28 +79,64 @@ class BookDetails extends StatelessWidget {
                 ),
               ),
             ),
-            Label(Icons.book, book.title, context),
-            Label(Icons.edit, book.author, context),
-            Label(Icons.calendar_today, book.date, context),
-            Label(Icons.monetization_on, book.price, context),
+            Label(Icons.book, widget.book.title, context),
+            Label(Icons.edit, widget.book.author, context),
+            Label(Icons.calendar_today, widget.book.date, context),
+            Label(Icons.monetization_on, widget.book.price, context),
             Label(Icons.description, "Description?", context),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Container(
-          constraints: BoxConstraints.expand(),
-          child: Icon(
-            Icons.add_shopping_cart,
-          ),
-          decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(color: Colors.green, width: 3)),
-        ),
-        foregroundColor: Colors.green,
-        backgroundColor: Colors.white,
-        onPressed: () {},
-      ),
+      floatingActionButton: isMyBook
+          ? Container()
+          : FloatingActionButton(
+              child: Container(
+                constraints: BoxConstraints.expand(),
+                child: loading
+                    ? SpinKitCircle(
+                        color: Colors.green,
+                      )
+                    : Icon(
+                        Icons.add_shopping_cart,
+                      ),
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.green, width: 3)),
+              ),
+              foregroundColor: Colors.green,
+              backgroundColor: Colors.white,
+              onPressed: () async {
+                if (UserDetails.email == "anon") {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: new Text("Must be Signed In"),
+                          content: new Text(
+                              "Please sign in to be able to purchase books"),
+                          actions: <Widget>[
+                            // usually buttons at the bottom of the dialog
+                            new FlatButton(
+                              child: new Text("Ok"),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      });
+                } else {
+                  setState(() {
+                    loading = true;
+                  });
+                  await FirestoreHelper()
+                      .createChat(book.sellerName, UserDetails.name, book.id);
+                  setState(() {
+                    loading = false;
+                  });
+                }
+              },
+            ),
     );
   }
 }

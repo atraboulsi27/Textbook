@@ -1,6 +1,6 @@
-import 'package:books_app/Login/Authentication.dart';
+import 'package:books_app/Helper%20Classes/Authentication.dart';
 import 'package:books_app/Login/Login.dart';
-import 'package:books_app/Login/user_details.dart';
+import 'package:books_app/Helper%20Classes/user_details.dart';
 import 'package:flutter/material.dart';
 
 Widget BookDrawer(BuildContext context) {
@@ -15,17 +15,13 @@ Widget BookDrawer(BuildContext context) {
             child: Container(
               constraints: BoxConstraints.expand(height: 120, width: 120),
               decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: Color(0xFF804A4A),
-                  width: 3
-                )
-              ),
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Color(0xFF804A4A), width: 3)),
               child: Center(
-                child: Text("Logo", style: TextStyle(
-                  color: Color(0xFFA07070),
-                  fontSize: 30
-                ),),
+                child: Text(
+                  "Logo",
+                  style: TextStyle(color: Color(0xFFA07070), fontSize: 30),
+                ),
               ),
             ),
           ),
@@ -37,42 +33,46 @@ Widget BookDrawer(BuildContext context) {
           indent: 30,
           endIndent: 30,
         ),
-        DrawerButton(Icons.settings, "Settings", (){}),
-        DrawerButton(Icons.contacts, "Contact Us", (){}),
-        DrawerButton(Icons.info, "About", (){}),
-        DrawerButton(Icons.cancel, "Sign Out", (){Authentication().signOut(); UserDetails.delEmail(); Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => Login()));}),
+        DrawerButton(Icons.settings, "Settings", () {}),
+        DrawerButton(Icons.contacts, "Contact Us", () {}),
+        DrawerButton(Icons.info, "About", () {}),
+        DrawerButton(Icons.cancel, "Sign Out", () {
+          Authentication().signOut();
+          UserDetails.delUserDetails();
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (BuildContext context) => Login()));
+        }),
       ],
     ),
   );
 }
 
-Widget DrawerButton(IconData icon, String label, Function function){
-  return
-    Padding(
-      padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
-      child: Container(
-        width: double.infinity,
-        child: FlatButton(
-          onPressed: function,
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Row(
-              children: [
-                Icon(
-                  icon,
-                  color: Color(0xFF804A4A),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(label, style: TextStyle(
-                    color: Color(0xFFA07070),
-                    fontSize: 17
-                ),),
-              ],
-            ),
+Widget DrawerButton(IconData icon, String label, Function function) {
+  return Padding(
+    padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
+    child: Container(
+      width: double.infinity,
+      child: FlatButton(
+        onPressed: function,
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Row(
+            children: [
+              Icon(
+                icon,
+                color: Color(0xFF804A4A),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                label,
+                style: TextStyle(color: Color(0xFFA07070), fontSize: 17),
+              ),
+            ],
           ),
         ),
       ),
-    );
+    ),
+  );
 }

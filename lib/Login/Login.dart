@@ -1,5 +1,5 @@
-import 'package:books_app/Login/Authentication.dart';
-import 'package:books_app/Login/user_details.dart';
+import 'package:books_app/Helper%20Classes/Authentication.dart';
+import 'package:books_app/Helper%20Classes/user_details.dart';
 import 'package:books_app/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -208,7 +208,8 @@ class _LoginState extends State<Login> {
                             emailController.text.trim(),
                             passController.text.trim());
                         if (result.contains("[USER]")) {
-                          UserDetails.setEmail(result.replaceAll("[USER]", ""));
+                          UserDetails.setUserDetails(
+                              result.replaceAll("[USER]", ""));
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
@@ -275,7 +276,7 @@ class _LoginState extends State<Login> {
                       });
                       bool result = await auth.anonymousSignIn();
                       if (result) {
-                        UserDetails.setEmail("anon");
+                        UserDetails.setUserDetails("anon");
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(

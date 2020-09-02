@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:books_app/Login/Authentication.dart';
-import 'package:books_app/Login/user_details.dart';
+import 'package:books_app/Helper Classes/Authentication.dart';
+import 'package:books_app/Helper Classes/user_details.dart';
 import 'package:books_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -324,7 +324,8 @@ class _Register extends State<Register> {
                             nameController.text.trim(),
                             passController.text.trim());
                         if (result.contains("[USER]")) {
-                          UserDetails.setEmail(result.replaceAll("[USER]", ""));
+                          UserDetails.setUserDetails(
+                              result.replaceAll("[USER]", ""));
                           Navigator.pop(context);
                           Navigator.pushReplacement(
                               context,

@@ -1,13 +1,13 @@
-import 'package:books_app/Login/Authentication.dart';
+import 'package:books_app/Helper%20Classes/Authentication.dart';
+import 'package:books_app/Helper%20Classes/user_details.dart';
 import 'package:books_app/Login/Login.dart';
-import 'package:books_app/Login/user_details.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'Pages/drawer.dart';
 import 'Pages/my_books.dart';
 import 'Pages/books_list.dart';
-import 'Pages/chats.dart';
+import 'Pages/chats_list.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
@@ -47,11 +47,10 @@ launch(context) async {
   String email = await auth.currentUser();
   if (email != null) {
     if (email.isNotEmpty) {
-      UserDetails.setEmail(email);
+      UserDetails.setUserDetails(email);
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (BuildContext context) => Home()));
-    }
-    else
+    } else
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (BuildContext context) => Login()));
   } else
@@ -116,7 +115,7 @@ class _HomeState extends State<Home> {
     pageMap = {
       0: BooksList(appBarController, dismissSearchBar),
       1: MyBooks(appBarController, dismissSearchBar),
-      2: ChatList(appBarController, dismissSearchBar)
+      2: ChatsList(appBarController, dismissSearchBar)
     };
     setAppBar();
   }

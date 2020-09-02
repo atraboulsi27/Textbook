@@ -1,21 +1,28 @@
+import 'package:books_app/Pages/book_details.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'book_details.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class Book {
-  String title, author, date, price, image, sellerEmail, sellerName;
+  String id, title, author, date, price, image, sellerEmail, sellerName;
 
-  Book({this.title, this.author, this.date, this.price, this.image, this.sellerEmail, this.sellerName});
+  Book(
+      {this.id,
+      this.title,
+      this.author,
+      this.date,
+      this.price,
+      this.image,
+      this.sellerEmail,
+      this.sellerName});
 }
 
 class Chat {
-  String id, buyer, seller;
+  String id, user1, user2;
   int status;
   Book book;
 
-  Chat({this.id, this.buyer, this.seller, this.status, this.book});
+  Chat({this.id, this.user1, this.user2, this.status, this.book});
 }
 
 class BookCard extends StatelessWidget {
