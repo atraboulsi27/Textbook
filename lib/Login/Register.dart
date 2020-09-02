@@ -316,6 +316,7 @@ class _Register extends State<Register> {
                         status = "";
                       });
                       if (formKey.currentState.validate()) {
+                        FocusScope.of(context).requestFocus(new FocusNode());
                         setState(() {
                           status = "loading";
                         });

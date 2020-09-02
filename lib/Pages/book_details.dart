@@ -1,4 +1,5 @@
 import 'package:books_app/Helper%20Classes/firestore_helper.dart';
+import 'package:books_app/main.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'classes.dart';
@@ -87,7 +88,7 @@ class _BookDetailsState extends State<BookDetails> {
           ],
         ),
       ),
-      floatingActionButton: isMyBook
+      floatingActionButton: isMyBook || UserDetails.email == "anon"
           ? Container()
           : FloatingActionButton(
               child: Container(
@@ -130,10 +131,11 @@ class _BookDetailsState extends State<BookDetails> {
                     loading = true;
                   });
                   await FirestoreHelper()
-                      .createChat(book.sellerName, UserDetails.name, book.id);
+                      .createChat(book.sellerName, UserDetails.name, book.title, book.image, book.sellerEmail, UserDetails.email);
                   setState(() {
                     loading = false;
                   });
+
                 }
               },
             ),

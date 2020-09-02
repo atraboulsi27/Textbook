@@ -94,21 +94,21 @@ class _MyBooksState extends State<MyBooks> {
           child: Text("Please sign in to be able to list your books."),
         ),
       );
-    else if (books.isEmpty)
-      return Center(
-        child: Container(
-          child: Text("You have not put any books for sale."),
-        ),
-      );
     else
       return Scaffold(
         body: Container(
           color: Colors.white,
-          child: ListView.builder(
-              itemCount: shownList.length,
-              itemBuilder: (context, index) {
-                return BookCard(shownList[index], dismissSearchBar);
-              }),
+          child: books.isEmpty
+              ? Center(
+                  child: Container(
+                    child: Text("You have not listed any books for sale."),
+                  ),
+                )
+              : ListView.builder(
+                  itemCount: shownList.length,
+                  itemBuilder: (context, index) {
+                    return BookCard(shownList[index], dismissSearchBar);
+                  }),
         ),
         floatingActionButton: FloatingActionButton(
           child: Container(

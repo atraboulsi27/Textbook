@@ -18,11 +18,16 @@ class Book {
 }
 
 class Chat {
-  String id, user1, user2;
+  String id, user1, user2, bookTitle, bookImage;
   int status;
-  Book book;
 
-  Chat({this.id, this.user1, this.user2, this.status, this.book});
+  Chat(
+      {this.id,
+      this.user1,
+      this.user2,
+      this.status,
+      this.bookTitle,
+      this.bookImage});
 }
 
 class BookCard extends StatelessWidget {

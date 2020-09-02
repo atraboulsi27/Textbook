@@ -201,6 +201,7 @@ class _LoginState extends State<Login> {
                         status = "";
                       });
                       if (formKey.currentState.validate()) {
+                        FocusScope.of(context).requestFocus(new FocusNode());
                         setState(() {
                           status = "loading";
                         });

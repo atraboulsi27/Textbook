@@ -33,20 +33,20 @@ class _ChatsListState extends State<ChatsList> {
     loading = true;
   }
 
-  Future<Book> getBook(int id) async {
-    Response res = await get(
-        "http://khaled.3dbeirut.com/Textbooks%20App/Scripts/Get%20Books.php?id=$id");
-    List<dynamic> jsonList = jsonDecode(res.body);
-    return Book(
-        id: jsonList[0],
-        title: jsonList[1],
-        author: jsonList[2],
-        date: jsonList[3],
-        price: jsonList[4],
-        image: jsonList[5],
-        sellerEmail: jsonList[6],
-        sellerName: jsonList[7]);
-  }
+  // Future<Book> getBook(int id) async {
+  //   Response res = await get(
+  //       "http://khaled.3dbeirut.com/Textbooks%20App/Scripts/Get%20Books.php?id=$id");
+  //   List<dynamic> jsonList = jsonDecode(res.body);
+  //   return Book(
+  //       id: jsonList[0],
+  //       title: jsonList[1],
+  //       author: jsonList[2],
+  //       date: jsonList[3],
+  //       price: jsonList[4],
+  //       image: jsonList[5],
+  //       sellerEmail: jsonList[6],
+  //       sellerName: jsonList[7]);
+  // }
 
   getChats() async {
     Response res = await get(
@@ -59,7 +59,8 @@ class _ChatsListState extends State<ChatsList> {
             user1: jsonList[i][1],
             user2: jsonList[i][2],
             status: int.parse(jsonList[i][3]),
-            book: await getBook(int.parse(jsonList[i][4]))));
+            bookTitle: jsonList[i][4],
+            bookImage: jsonList[i][5]));
       }
     }
     if (this.mounted)
@@ -84,7 +85,7 @@ class _ChatsListState extends State<ChatsList> {
             ? chats[i].user2
             : chats[i].user1;
         if (otherUser.toLowerCase().contains(text.toLowerCase()) ||
-            chats[i].book.title.toLowerCase().contains(text.toLowerCase())) {
+            chats[i].bookTitle.toLowerCase().contains(text.toLowerCase())) {
           shownList.add(chats[i]);
         }
       }
@@ -148,7 +149,7 @@ class ChatCard extends StatelessWidget {
               context,
               MaterialPageRoute(
                   builder: (BuildContext context) =>
-                      ChatPage(chat.id, otherUser, chat.book.title)));
+                      ChatPage(chat.id, otherUser, chat.bookTitle)));
         },
         child: Card(
           elevation: 0,
@@ -168,7 +169,7 @@ class ChatCard extends StatelessWidget {
                       border: Border.all(color: Color(0xFF804A4A), width: 3),
                       borderRadius: BorderRadius.all(Radius.circular(5)),
                       image: DecorationImage(
-                        image: CachedNetworkImageProvider(chat.book.image),
+                        image: CachedNetworkImageProvider(chat.bookImage),
                       )),
                 ),
               ),
@@ -187,7 +188,7 @@ class ChatCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Book: ${chat.book.title}",
+                            "Book: ${chat.bookTitle}",
                             style: TextStyle(
                                 fontSize: 20, color: Color(0xFF706161)),
                           ),
