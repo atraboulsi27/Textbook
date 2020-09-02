@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:books_app/Login/Authentication.dart';
+import 'package:books_app/Login/user_details.dart';
 import 'package:books_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -89,7 +90,27 @@ class _Register extends State<Register> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                height: MediaQuery.of(context).size.height / 8,
+                height: MediaQuery.of(context).size.height / 18,
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+                child: RawMaterialButton(
+                  padding: EdgeInsets.all(8),
+                  //do
+                  constraints: BoxConstraints(),
+                  shape: CircleBorder(),
+                  child: Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height / 100,
               ),
               Center(
                 child: Column(
@@ -302,7 +323,8 @@ class _Register extends State<Register> {
                             emailController.text.trim(),
                             nameController.text.trim(),
                             passController.text.trim());
-                        if (result == "[SUCCESS]") {
+                        if (result.contains("[USER]")) {
+                          UserDetails.setEmail(result.replaceAll("[USER]", ""));
                           Navigator.pop(context);
                           Navigator.pushReplacement(
                               context,

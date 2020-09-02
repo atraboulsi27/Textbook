@@ -1,4 +1,5 @@
 import 'package:books_app/Login/Authentication.dart';
+import 'package:books_app/Login/user_details.dart';
 import 'package:books_app/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -206,7 +207,8 @@ class _LoginState extends State<Login> {
                         String result = await auth.signIn(
                             emailController.text.trim(),
                             passController.text.trim());
-                        if (result == "[SUCCESS]") {
+                        if (result.contains("[USER]")) {
+                          UserDetails.setEmail(result.replaceAll("[USER]", ""));
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
@@ -272,11 +274,13 @@ class _LoginState extends State<Login> {
                         status = "loading";
                       });
                       bool result = await auth.anonymousSignIn();
-                      if (result)
+                      if (result) {
+                        UserDetails.setEmail("anon");
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (BuildContext context) => Home()));
+                      }
                     },
                   ),
                 ),

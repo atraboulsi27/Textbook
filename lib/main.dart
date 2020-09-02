@@ -1,10 +1,11 @@
 import 'package:books_app/Login/Authentication.dart';
 import 'package:books_app/Login/Login.dart';
+import 'package:books_app/Login/user_details.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'Pages/drawer.dart';
-import 'Pages/add_book.dart';
+import 'Pages/my_books.dart';
 import 'Pages/books_list.dart';
 import 'Pages/chats.dart';
 import 'package:flutter/material.dart';
@@ -45,9 +46,11 @@ launch(context) async {
   Authentication auth = Authentication();
   String email = await auth.currentUser();
   if (email != null) {
-    if (email.isNotEmpty)
+    if (email.isNotEmpty) {
+      UserDetails.setEmail(email);
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (BuildContext context) => Home()));
+    }
     else
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (BuildContext context) => Login()));
@@ -64,7 +67,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int currentIndex = 0;
   Map<int, Widget> pageMap;
-  Map<int, String> titleMap = {0: "Text Books", 1: "Add Book", 2: "Chats"};
+  Map<int, String> titleMap = {0: "Text Books", 1: "My Books", 2: "Chats"};
   IconData appBarIcon;
   Widget appBarContent, appBarText, appBarField;
   TextEditingController appBarController;
@@ -112,7 +115,7 @@ class _HomeState extends State<Home> {
     };
     pageMap = {
       0: BooksList(appBarController, dismissSearchBar),
-      1: AddBook(appBarController, dismissSearchBar),
+      1: MyBooks(appBarController, dismissSearchBar),
       2: ChatList(appBarController, dismissSearchBar)
     };
     setAppBar();
@@ -183,7 +186,7 @@ class _HomeState extends State<Home> {
         items: [
           BottomNavigationBarItem(title: Text("Books"), icon: Icon(Icons.list)),
           BottomNavigationBarItem(
-              title: Text("Add Book"), icon: Icon(Icons.add)),
+              title: Text("My Books"), icon: Icon(Icons.book)),
           BottomNavigationBarItem(
               title: Text("Chats"), icon: Icon(Icons.chat_bubble)),
         ],
