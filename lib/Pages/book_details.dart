@@ -11,21 +11,25 @@ import 'package:auto_size_text/auto_size_text.dart';
 
 class BookDetails extends StatefulWidget {
   Book book;
+  Function changePage;
 
-  BookDetails(Book book) {
+  BookDetails(Book book, Function changePage) {
     this.book = book;
+    this.changePage = changePage;
   }
 
   @override
-  _BookDetailsState createState() => _BookDetailsState(book);
+  _BookDetailsState createState() => _BookDetailsState(book, changePage);
 }
 
 class _BookDetailsState extends State<BookDetails> {
   bool isMyBook, loading;
   Book book;
+  Function changePage;
 
-  _BookDetailsState(Book book) {
+  _BookDetailsState(Book book, Function changePage) {
     this.book = book;
+    this.changePage = changePage;
     isMyBook = book.sellerEmail == UserDetails.email;
     loading = false;
   }
@@ -107,36 +111,21 @@ class _BookDetailsState extends State<BookDetails> {
               foregroundColor: Colors.green,
               backgroundColor: Colors.white,
               onPressed: () async {
-                if (UserDetails.email == "anon") {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: new Text("Must be Signed In"),
-                          content: new Text(
-                              "Please sign in to be able to purchase books"),
-                          actions: <Widget>[
-                            // usually buttons at the bottom of the dialog
-                            new FlatButton(
-                              child: new Text("Ok"),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
-                        );
-                      });
-                } else {
-                  setState(() {
-                    loading = true;
-                  });
-                  await FirestoreHelper()
-                      .createChat(book.sellerName, UserDetails.name, book.title, book.image, book.sellerEmail, UserDetails.email);
-                  setState(() {
-                    loading = false;
-                  });
-
-                }
+                setState(() {
+                  loading = true;
+                });
+                await FirestoreHelper().createChat(
+                    book.sellerName,
+                    UserDetails.name,
+                    book.title,
+                    book.image,
+                    book.sellerEmail,
+                    UserDetails.email);
+                setState(() {
+                  loading = false;
+                });
+                Navigator.pop(context);
+                changePage(2);
               },
             ),
     );

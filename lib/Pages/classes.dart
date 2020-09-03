@@ -32,11 +32,12 @@ class Chat {
 
 class BookCard extends StatelessWidget {
   Book book;
-  Function dismissSearchBar;
+  Function dismissSearchBar, changePage;
 
-  BookCard(Book book, Function function) {
+  BookCard(Book book, Function dismissSearchBar, Function changePage) {
     this.book = book;
-    this.dismissSearchBar = function;
+    this.dismissSearchBar = dismissSearchBar;
+    this.changePage = changePage;
   }
 
   @override
@@ -49,7 +50,8 @@ class BookCard extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (BuildContext context) => BookDetails(book)));
+                  builder: (BuildContext context) =>
+                      BookDetails(book, changePage)));
           dismissSearchBar.call();
         },
         child: Card(

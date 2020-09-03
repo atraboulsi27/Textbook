@@ -100,6 +100,14 @@ class _HomeState extends State<Home> {
     appBarContent = appBarText;
   }
 
+  changePage(int index) {
+    setState(() {
+      currentIndex = index;
+      setAppBar();
+      appBarController.clear();
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -113,7 +121,7 @@ class _HomeState extends State<Home> {
       });
     };
     pageMap = {
-      0: BooksList(appBarController, dismissSearchBar),
+      0: BooksList(appBarController, dismissSearchBar, changePage),
       1: MyBooks(appBarController, dismissSearchBar),
       2: ChatsList(appBarController, dismissSearchBar)
     };
@@ -176,11 +184,7 @@ class _HomeState extends State<Home> {
         unselectedItemColor: Color(0x60FFFFFF),
         currentIndex: currentIndex,
         onTap: (index) {
-          setState(() {
-            currentIndex = index;
-            setAppBar();
-            appBarController.clear();
-          });
+          changePage(index);
         },
         items: [
           BottomNavigationBarItem(title: Text("Books"), icon: Icon(Icons.list)),

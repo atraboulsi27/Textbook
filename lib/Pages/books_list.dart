@@ -8,27 +8,31 @@ import 'package:books_app/main.dart';
 
 class BooksList extends StatefulWidget {
   TextEditingController searchBarController;
-  Function dismissSearchBar;
+  Function dismissSearchBar, changePage;
 
-  BooksList(TextEditingController controller, Function function) {
+  BooksList(TextEditingController controller, Function dismissSearchBar,
+      Function changePage) {
     this.searchBarController = controller;
-    this.dismissSearchBar = function;
+    this.dismissSearchBar = dismissSearchBar;
+    this.changePage = changePage;
   }
 
   @override
   _BooksListState createState() =>
-      _BooksListState(searchBarController, dismissSearchBar);
+      _BooksListState(searchBarController, dismissSearchBar, changePage);
 }
 
 class _BooksListState extends State<BooksList> {
   TextEditingController searchBarController;
-  Function dismissSearchBar;
+  Function dismissSearchBar, changePage;
   List<Book> books, shownList;
   bool loading = true;
 
-  _BooksListState(TextEditingController controller, Function function) {
+  _BooksListState(TextEditingController controller, Function dismissSearchBar,
+      Function changePage) {
     this.searchBarController = controller;
-    this.dismissSearchBar = function;
+    this.dismissSearchBar = dismissSearchBar;
+    this.changePage = changePage;
   }
 
   getList() async {
@@ -97,7 +101,7 @@ class _BooksListState extends State<BooksList> {
           child: ListView.builder(
               itemCount: shownList.length,
               itemBuilder: (context, index) {
-                return BookCard(shownList[index], dismissSearchBar);
+                return BookCard(shownList[index], dismissSearchBar, changePage);
               }));
   }
 }
