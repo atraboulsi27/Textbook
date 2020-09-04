@@ -4,12 +4,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 class Book {
-  String id, title, author, date, price, image, sellerEmail, sellerName;
+  String id, title, author, description, date, price, image, sellerEmail, sellerName;
 
   Book(
       {this.id,
       this.title,
       this.author,
+      this.description,
       this.date,
       this.price,
       this.image,

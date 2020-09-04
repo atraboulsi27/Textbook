@@ -41,11 +41,12 @@ class _MyBooksState extends State<MyBooks> {
             id: jsonList[i][0],
             title: jsonList[i][1],
             author: jsonList[i][2],
-            date: jsonList[i][3],
-            price: jsonList[i][4],
-            image: jsonList[i][5],
-            sellerEmail: jsonList[i][6],
-            sellerName: jsonList[i][7]));
+            description: jsonList[i][3],
+            date: jsonList[i][4],
+            price: jsonList[i][5],
+            image: jsonList[i][6],
+            sellerEmail: jsonList[i][7],
+            sellerName: jsonList[i][8]));
       }
     }
     if (this.mounted)
