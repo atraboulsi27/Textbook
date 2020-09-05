@@ -94,29 +94,26 @@ class _AddBook extends State<AddBook> {
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-            child: GestureDetector(
-              onTap: () {
-                print("234");
-                FocusScope.of(context).requestFocus(new FocusNode());
-              },
-              child: DropdownButton(
-                  value: dropdown_value,
-                  items: [
-                    DropdownMenuItem(
-                      child: Text("L.L"),
-                      value: 1,
-                    ),
-                    DropdownMenuItem(
-                      child: Text("\$"),
-                      value: 2,
-                    ),
-                  ],
-                  onChanged: (value) {
-                    setState(() {
-                      dropdown_value = value;
-                    });
-                  }),
-            ),
+            child: DropdownButton(
+                value: dropdown_value,
+                items: [
+                  DropdownMenuItem(
+                    child: Text("L.L"),
+                    value: 1,
+                  ),
+                  DropdownMenuItem(
+                    child: Text("\$"),
+                    value: 2,
+                  ),
+                ],
+                onChanged: (value) {
+                  setState(() {
+                    dropdown_value = value;
+                  });
+                },
+                onTap: () {
+                  FocusScope.of(context).requestFocus(new FocusNode());
+                }),
           ),
         ],
       ),
