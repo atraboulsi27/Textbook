@@ -8,6 +8,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ftpconnect/ftpconnect.dart';
 import 'package:books_app/Helper%20Classes/user_details.dart';
 import 'package:path/path.dart' as path;
+import 'package:http/http.dart';
+import 'package:books_app/Pages/my_books.dart';
 
 class AddBook extends StatefulWidget {
   @override
@@ -42,7 +44,8 @@ class _AddBook extends State<AddBook> {
     });
   }
 
-  upload_image() async {
+  insert_book(
+      String title, String author, String description, String price) async {
     DateTime now = new DateTime.now();
     DateTime date = new DateTime(
         now.year, now.month, now.day, now.hour, now.minute, now.second);
@@ -52,8 +55,23 @@ class _AddBook extends State<AddBook> {
     FTPConnect ftpConnect = FTPConnect('ftp.3dbeirut.com',
         user: 'textbooks_app@3dbeirut.com', pass: 'Geranimo542533');
     File fileToUpload = File(newPath);
+    DateTime date_ = new DateTime(now.year, now.month, now.day);
+    String date_to_be_inserted = date_.toIso8601String();
+    String seller_email = UserDetails.email;
+    String seller_name = UserDetails.name;
+
     bool res =
         await ftpConnect.uploadFileWithRetry(fileToUpload, pRetryCount: 2);
+    try {
+      Response res1 = await get(
+          "http://khaled.3dbeirut.com/Textbooks%20App/Scripts/Insert%20Book.php?title=$title&author=$author&description=$description&date=$date_to_be_inserted&price=$price&image=$newPath&seller_email=$seller_email&seller_name=$seller_name");
+      if (res1.body == "[SUCCESS]")
+            print('yay');
+      else
+        return "An unknown error has occurred.";
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   Widget Price(TextEditingController controller, BuildContext context) {
@@ -194,7 +212,14 @@ class _AddBook extends State<AddBook> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: upload_image,
+        onPressed: () {
+          String price;
+          dropdown_value == 1
+              ? price = price_controller.text + " L.L"
+              : price = price_controller.text + " \$";
+          insert_book(title_controller.text, author_controller.text,
+              description_controller.text, price);
+        },
         foregroundColor: Colors.green,
         backgroundColor: Colors.white,
       ),
