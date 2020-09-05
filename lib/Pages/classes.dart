@@ -4,7 +4,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 class Book {
-  String id, title, author, description, date, price, image, sellerEmail, sellerName;
+  String id,
+      title,
+      author,
+      description,
+      date,
+      price,
+      image,
+      sellerEmail,
+      sellerName;
 
   Book(
       {this.id,
@@ -34,11 +42,14 @@ class Chat {
 class BookCard extends StatelessWidget {
   Book book;
   Function dismissSearchBar, changePage;
+  List<StartedChats> startedChats;
 
-  BookCard(Book book, Function dismissSearchBar, Function changePage) {
+  BookCard(Book book, Function dismissSearchBar, Function changePage,
+      List<StartedChats> chatEmails) {
     this.book = book;
     this.dismissSearchBar = dismissSearchBar;
     this.changePage = changePage;
+    this.startedChats = chatEmails;
   }
 
   @override
@@ -52,7 +63,7 @@ class BookCard extends StatelessWidget {
               context,
               MaterialPageRoute(
                   builder: (BuildContext context) =>
-                      BookDetails(book, changePage)));
+                      BookDetails(book, changePage, startedChats)));
           dismissSearchBar.call();
         },
         child: Card(
@@ -125,4 +136,9 @@ class BookCard extends StatelessWidget {
       ),
     );
   }
+}
+
+class StartedChats {
+  String title, email;
+  StartedChats({this.title, this.email});
 }

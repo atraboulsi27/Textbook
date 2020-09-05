@@ -33,21 +33,6 @@ class _ChatsListState extends State<ChatsList> {
     loading = true;
   }
 
-  // Future<Book> getBook(int id) async {
-  //   Response res = await get(
-  //       "http://khaled.3dbeirut.com/Textbooks%20App/Scripts/Get%20Books.php?id=$id");
-  //   List<dynamic> jsonList = jsonDecode(res.body);
-  //   return Book(
-  //       id: jsonList[0],
-  //       title: jsonList[1],
-  //       author: jsonList[2],
-  //       date: jsonList[3],
-  //       price: jsonList[4],
-  //       image: jsonList[5],
-  //       sellerEmail: jsonList[6],
-  //       sellerName: jsonList[7]);
-  // }
-
   getChats() async {
     Response res = await get(
         "http://khaled.3dbeirut.com/Textbooks%20App/Scripts/Get%20Chats.php?email=${UserDetails.email}");
@@ -179,7 +164,7 @@ class ChatCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "With ${chat.user1}",
+                      "With ${chat.user1 == UserDetails.name ? chat.user2 : chat.user1}",
                       style: TextStyle(fontSize: 14, color: Color(0xFF706161)),
                     ),
                     Padding(
