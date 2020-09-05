@@ -108,7 +108,7 @@ class _MyBooksState extends State<MyBooks> {
               : ListView.builder(
                   itemCount: shownList.length,
                   itemBuilder: (context, index) {
-                    return BookCard(shownList[index], dismissSearchBar, null);
+                    return BookCard(shownList[index], dismissSearchBar, null, null);
                   }),
         ),
         floatingActionButton: FloatingActionButton(

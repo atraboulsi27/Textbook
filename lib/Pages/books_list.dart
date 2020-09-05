@@ -1,10 +1,9 @@
 import 'dart:convert';
-
+import 'package:books_app/Helper%20Classes/user_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart';
 import 'classes.dart';
-import 'package:books_app/main.dart';
 
 class BooksList extends StatefulWidget {
   TextEditingController searchBarController;
@@ -26,6 +25,7 @@ class _BooksListState extends State<BooksList> {
   TextEditingController searchBarController;
   Function dismissSearchBar, changePage;
   List<Book> books, shownList;
+  List<StartedChats> startedChats;
   bool loading = true;
 
   _BooksListState(TextEditingController controller, Function dismissSearchBar,
@@ -53,11 +53,29 @@ class _BooksListState extends State<BooksList> {
             sellerName: jsonList[i][8]));
       }
     }
+    startedChats = [];
+    await getChats();
     if (this.mounted)
       setState(() {
         loading = false;
         shownList.addAll(books);
       });
+  }
+
+  getChats() async {
+    Response res = await get(
+        "http://khaled.3dbeirut.com/Textbooks%20App/Scripts/Get%20Chats.php?email=${UserDetails.email}");
+    if (res.body != "[EMPTY]") {
+      List<dynamic> jsonList = jsonDecode(res.body);
+      String toAdd = "";
+      for (int i = 0; i < jsonList.length; i++) {
+        if (jsonList[i][6] == UserDetails.email)
+          toAdd = jsonList[i][7];
+        else
+          toAdd = jsonList[i][6];
+        if (!startedChats.contains(toAdd)) startedChats.add(StartedChats(title: jsonList[i][4], email: toAdd));
+      }
+    }
   }
 
   @override
@@ -102,7 +120,7 @@ class _BooksListState extends State<BooksList> {
           child: ListView.builder(
               itemCount: shownList.length,
               itemBuilder: (context, index) {
-                return BookCard(shownList[index], dismissSearchBar, changePage);
+                return BookCard(shownList[index], dismissSearchBar, changePage, startedChats);
               }));
   }
 }

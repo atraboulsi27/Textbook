@@ -12,26 +12,47 @@ import 'package:auto_size_text/auto_size_text.dart';
 class BookDetails extends StatefulWidget {
   Book book;
   Function changePage;
+  List<StartedChats> chatEmails;
 
-  BookDetails(Book book, Function changePage) {
+  BookDetails(Book book, Function changePage, List<StartedChats> chatEmails) {
     this.book = book;
     this.changePage = changePage;
+    this.chatEmails = chatEmails;
   }
 
   @override
-  _BookDetailsState createState() => _BookDetailsState(book, changePage);
+  _BookDetailsState createState() =>
+      _BookDetailsState(book, changePage, chatEmails);
 }
 
 class _BookDetailsState extends State<BookDetails> {
-  bool isMyBook, loading;
+  bool loading;
   Book book;
   Function changePage;
+  List<StartedChats> startedChats;
 
-  _BookDetailsState(Book book, Function changePage) {
+  _BookDetailsState(
+      Book book, Function changePage, List<StartedChats> chatEmails) {
     this.book = book;
     this.changePage = changePage;
-    isMyBook = book.sellerEmail == UserDetails.email;
+    this.startedChats = chatEmails;
     loading = false;
+  }
+
+  bool fabCondition() {
+    if (book.sellerEmail == UserDetails.email)
+      return true;
+    else if (UserDetails.email == "anon")
+      return true;
+    else {
+      for (int i = 0; i < startedChats.length; i++) {
+        if (startedChats[i].title == book.title &&
+            startedChats[i].email == book.sellerEmail) {
+          return true;
+        }
+      }
+      return false;
+    }
   }
 
   @override
@@ -92,7 +113,7 @@ class _BookDetailsState extends State<BookDetails> {
           ],
         ),
       ),
-      floatingActionButton: isMyBook || UserDetails.email == "anon"
+      floatingActionButton: fabCondition()
           ? Container()
           : FloatingActionButton(
               child: Container(
@@ -111,21 +132,135 @@ class _BookDetailsState extends State<BookDetails> {
               foregroundColor: Colors.green,
               backgroundColor: Colors.white,
               onPressed: () async {
-                setState(() {
-                  loading = true;
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                      elevation: 10,
+                      title: Text(
+                        "Request to buy this book from ${book.sellerName}?",
+                        style: TextStyle(
+                          color: Color(0xFFA07070),
+                          fontFamily: 'selawk',
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      content: Container(
+                        height: MediaQuery.of(context).size.height / 2.5,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Divider(
+                              color: Color(0xFFB67777),
+                              thickness: 2,
+                            ),
+                            Text(
+                              "This will start a chat where you can discuss details about the purchase.\n\nYou can chat here or share your phone numbers for ease.\n\nMake sure you do not share many details and meet in public places.",
+                              style: TextStyle(
+                                fontSize: 16,
+                                letterSpacing: 1,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                FlatButton(
+                                  child: new Text("Cancel",
+                                      style: TextStyle(
+                                          color: Colors.red, fontSize: 16)),
+                                  onPressed: () {
+                                    Navigator.of(context).pop(false);
+                                  },
+                                ),
+                                FlatButton(
+                                  child: new Text(
+                                    "Start Chat",
+                                    style: TextStyle(
+                                        color: Colors.green, fontSize: 16),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).pop(true);
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ).then((value) async {
+                  if (value != null) {
+                  if (value) {
+                    setState(() {
+                      loading = true;
+                    });
+                    bool result = await FirestoreHelper().createChat(
+                        book.sellerName,
+                        UserDetails.name,
+                        book.title,
+                        book.image,
+                        book.sellerEmail,
+                        UserDetails.email);
+                      if (result) {
+                        setState(() {
+                          loading = false;
+                        });
+                        Navigator.of(context).pop();
+                        changePage(2);
+                      } else {
+                        setState(() {
+                          loading = false;
+                        });
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 20),
+                              elevation: 10,
+                              title: Text(
+                                "Error",
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontFamily: 'selawk',
+                                  fontSize: 17,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              content: Text(
+                                "An unexpected error has occurred. Please try again.",
+                                style: TextStyle(
+                                  color: Color(0xFFA07070),
+                                  fontFamily: 'selawk',
+                                  fontSize: 15,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              actions: [
+                                FlatButton(
+                                  child: Text(
+                                    "Ok",
+                                    style: TextStyle(
+                                      color: Color(0xFFB67777),
+                                      fontSize: 17,
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                )
+                              ],
+                            );
+                          },
+                        );
+                      }
+                    }
+                  }
                 });
-                await FirestoreHelper().createChat(
-                    book.sellerName,
-                    UserDetails.name,
-                    book.title,
-                    book.image,
-                    book.sellerEmail,
-                    UserDetails.email);
-                setState(() {
-                  loading = false;
-                });
-                Navigator.pop(context);
-                changePage(2);
               },
             ),
     );
