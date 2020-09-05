@@ -7,7 +7,8 @@ class FirestoreHelper {
 
   FirestoreHelper({this.id});
 
-  Future<bool> createChat(String user1, String user2, String bookTitle, String bookImage, String user1email, String user2email) async {
+  Future<bool> createChat(String user1, String user2, String bookTitle,
+      String bookImage, String user1email, String user2email) async {
     try {
       DocumentReference newDoc = await ref.add({"Chat": []});
       String chatID = newDoc.id;
@@ -17,7 +18,7 @@ class FirestoreHelper {
         return true;
       else
         return false;
-    } catch(e){
+    } catch (e) {
       return false;
     }
   }

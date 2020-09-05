@@ -140,5 +140,6 @@ class BookCard extends StatelessWidget {
 
 class StartedChats {
   String title, email;
+
   StartedChats({this.title, this.email});
 }

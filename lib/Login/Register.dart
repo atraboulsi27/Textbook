@@ -88,31 +88,33 @@ class _Register extends State<Register> {
           key: formKey,
           child: Column(
             children: [
-              Column(crossAxisAlignment: CrossAxisAlignment.start,children: <Widget>[
-                Container(
-                  height: MediaQuery.of(context).size.height / 18,
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                  child: RawMaterialButton(
-                    padding: EdgeInsets.all(8),
-                    //do
-                    constraints: BoxConstraints(),
-                    shape: CircleBorder(),
-                    child: Icon(
-                      Icons.arrow_back,
-                      color: Colors.white,
-                      size: 30,
+              Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      height: MediaQuery.of(context).size.height / 18,
                     ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ),
-                Container(
-                  height: MediaQuery.of(context).size.height / 100,
-                ),
-              ]),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+                      child: RawMaterialButton(
+                        padding: EdgeInsets.all(8),
+                        //do
+                        constraints: BoxConstraints(),
+                        shape: CircleBorder(),
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                          size: 30,
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                    Container(
+                      height: MediaQuery.of(context).size.height / 100,
+                    ),
+                  ]),
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
@@ -315,8 +317,8 @@ class _Register extends State<Register> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(0.0),
                                 side: BorderSide(color: Hexcolor("#707070"))),
-                            padding:
-                                EdgeInsets.symmetric(vertical: 9, horizontal: 29),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 9, horizontal: 29),
                             color: Hexcolor("#E6D3D3").withOpacity(0.54),
                             onPressed: () async {
                               setState(() {

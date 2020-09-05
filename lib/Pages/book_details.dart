@@ -1,7 +1,5 @@
 import 'package:books_app/Helper%20Classes/firestore_helper.dart';
-import 'package:books_app/main.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
 import 'classes.dart';
 import 'package:books_app/Helper%20Classes/user_details.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -105,11 +103,11 @@ class _BookDetailsState extends State<BookDetails> {
                 ),
               ),
             ),
-            Label(Icons.book, widget.book.title, context),
-            Label(Icons.edit, widget.book.author, context),
-            Label(Icons.calendar_today, widget.book.date, context),
-            Label(Icons.monetization_on, widget.book.price, context),
-            Label(Icons.description, "Description?", context),
+            Label(Icons.book, book.title, context),
+            Label(Icons.edit, book.author, context),
+            Label(Icons.calendar_today, book.date, context),
+            Label(Icons.monetization_on, book.price, context),
+            Label(Icons.description, book.description, context),
           ],
         ),
       ),
@@ -194,17 +192,17 @@ class _BookDetailsState extends State<BookDetails> {
                   },
                 ).then((value) async {
                   if (value != null) {
-                  if (value) {
-                    setState(() {
-                      loading = true;
-                    });
-                    bool result = await FirestoreHelper().createChat(
-                        book.sellerName,
-                        UserDetails.name,
-                        book.title,
-                        book.image,
-                        book.sellerEmail,
-                        UserDetails.email);
+                    if (value) {
+                      setState(() {
+                        loading = true;
+                      });
+                      bool result = await FirestoreHelper().createChat(
+                          book.sellerName,
+                          UserDetails.name,
+                          book.title,
+                          book.image,
+                          book.sellerEmail,
+                          UserDetails.email);
                       if (result) {
                         setState(() {
                           loading = false;
@@ -271,6 +269,7 @@ Widget Label(IconData icon, String info, BuildContext context) {
   return Padding(
     padding: const EdgeInsets.all(10),
     child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),

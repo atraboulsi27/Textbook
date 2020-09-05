@@ -73,7 +73,8 @@ class _BooksListState extends State<BooksList> {
           toAdd = jsonList[i][7];
         else
           toAdd = jsonList[i][6];
-        if (!startedChats.contains(toAdd)) startedChats.add(StartedChats(title: jsonList[i][4], email: toAdd));
+        if (!startedChats.contains(toAdd))
+          startedChats.add(StartedChats(title: jsonList[i][4], email: toAdd));
       }
     }
   }
@@ -120,7 +121,8 @@ class _BooksListState extends State<BooksList> {
           child: ListView.builder(
               itemCount: shownList.length,
               itemBuilder: (context, index) {
-                return BookCard(shownList[index], dismissSearchBar, changePage, startedChats);
+                return BookCard(shownList[index], dismissSearchBar, changePage,
+                    startedChats);
               }));
   }
 }

@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,6 @@ import 'package:ftpconnect/ftpconnect.dart';
 import 'package:books_app/Helper%20Classes/user_details.dart';
 import 'package:path/path.dart' as path;
 import 'package:http/http.dart';
-import 'package:books_app/Pages/my_books.dart';
 
 class AddBook extends StatefulWidget {
   @override
@@ -17,15 +15,14 @@ class AddBook extends StatefulWidget {
 }
 
 class _AddBook extends State<AddBook> {
-  @override
-  TextEditingController title_controller = new TextEditingController();
-  TextEditingController author_controller = new TextEditingController();
-  TextEditingController course_name_controller = new TextEditingController();
-  TextEditingController description_controller = new TextEditingController();
-  TextEditingController price_controller = new TextEditingController();
+  TextEditingController titleController = TextEditingController();
+  TextEditingController authorController = new TextEditingController();
+  TextEditingController courseNameController = new TextEditingController();
+  TextEditingController descriptionController = new TextEditingController();
+  TextEditingController priceController = new TextEditingController();
   File _image;
   final picker = ImagePicker();
-  int dropdown_value = 1;
+  int dropdownValue = 1;
 
   _imgFromCamera() async {
     final pickedFile =
@@ -49,28 +46,31 @@ class _AddBook extends State<AddBook> {
     DateTime now = new DateTime.now();
     DateTime date = new DateTime(
         now.year, now.month, now.day, now.hour, now.minute, now.second);
-    String filename = UserDetails.email + " " + date.toIso8601String();
-    String newPath = path.join(path.dirname(_image.path), filename + ".jpg");
+    String filename = UserDetails.email + " " + date.toIso8601String() + ".jpg";
+    String newPath = path.join(path.dirname(_image.path), filename);
     _image.renameSync(newPath);
     FTPConnect ftpConnect = FTPConnect('ftp.3dbeirut.com',
         user: 'textbooks_app@3dbeirut.com', pass: 'Geranimo542533');
     File fileToUpload = File(newPath);
-    DateTime date_ = new DateTime(now.year, now.month, now.day);
-    String date_to_be_inserted = date_.toIso8601String();
-    String seller_email = UserDetails.email;
-    String seller_name = UserDetails.name;
-
+    DateTime _date = new DateTime(now.year, now.month, now.day);
+    String dateToBeInserted = _date.toIso8601String();
+    String sellerEmail = UserDetails.email;
+    String sellerName = UserDetails.name;
+    String mysqlImagePath =
+        "http://khaled.3dbeirut.com/Textbooks%20App/Images/" + filename;
     bool res =
         await ftpConnect.uploadFileWithRetry(fileToUpload, pRetryCount: 2);
-    try {
-      Response res1 = await get(
-          "http://khaled.3dbeirut.com/Textbooks%20App/Scripts/Insert%20Book.php?title=$title&author=$author&description=$description&date=$date_to_be_inserted&price=$price&image=$newPath&seller_email=$seller_email&seller_name=$seller_name");
-      if (res1.body == "[SUCCESS]")
-            print('yay');
-      else
-        return "An unknown error has occurred.";
-    } catch (e) {
-      print(e.toString());
+    if (res) {
+      try {
+        Response res1 = await get(
+            "http://khaled.3dbeirut.com/Textbooks%20App/Scripts/Insert%20Book.php?title=$title&author=$author&description=$description&date=$dateToBeInserted&price=$price&image=$mysqlImagePath&seller_email=$sellerEmail&seller_name=$sellerName");
+        if (res1.body == "[SUCCESS]") {
+          return true;
+        } else
+          return false;
+      } catch (e) {
+        print(e.toString());
+      }
     }
   }
 
@@ -113,7 +113,7 @@ class _AddBook extends State<AddBook> {
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
             child: DropdownButton(
-                value: dropdown_value,
+                value: dropdownValue,
                 items: [
                   DropdownMenuItem(
                     child: Text("L.L"),
@@ -126,7 +126,7 @@ class _AddBook extends State<AddBook> {
                 ],
                 onChanged: (value) {
                   setState(() {
-                    dropdown_value = value;
+                    dropdownValue = value;
                   });
                 },
                 onTap: () {
@@ -199,13 +199,13 @@ class _AddBook extends State<AddBook> {
               Container(
                 height: 20,
               ),
-              field(Icons.book, title_controller, "Book Title", context),
-              field(Icons.edit, author_controller, "Author's Names", context),
-              field(FontAwesomeIcons.graduationCap, course_name_controller,
+              field(Icons.book, titleController, "Book Title", context),
+              field(Icons.edit, authorController, "Author's Names", context),
+              field(FontAwesomeIcons.graduationCap, courseNameController,
                   "Course Name", context),
-              field(Icons.description, description_controller,
+              field(Icons.description, descriptionController,
                   "Description(ex. Condition, Edition, etc..)", context),
-              Price(price_controller, context),
+              Price(priceController, context),
               button(),
             ],
           ),
@@ -214,11 +214,11 @@ class _AddBook extends State<AddBook> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           String price;
-          dropdown_value == 1
-              ? price = price_controller.text + " L.L"
-              : price = price_controller.text + " \$";
-          insert_book(title_controller.text, author_controller.text,
-              description_controller.text, price);
+          dropdownValue == 1
+              ? price = priceController.text + " L.L"
+              : price = priceController.text + " \$";
+          insert_book(titleController.text, authorController.text,
+              descriptionController.text, price);
         },
         foregroundColor: Colors.green,
         backgroundColor: Colors.white,
