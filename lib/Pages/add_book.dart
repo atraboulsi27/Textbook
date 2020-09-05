@@ -30,7 +30,6 @@ class _AddBook extends State<AddBook> {
         await picker.getImage(source: ImageSource.camera, imageQuality: 50);
     setState(() {
       _image = File(pickedFile.path);
-
     });
   }
 
@@ -42,17 +41,20 @@ class _AddBook extends State<AddBook> {
       _image = File(pickedFile.path);
     });
   }
-  upload_image() async{
-    DateTime now = new DateTime.now();
-    DateTime date = new DateTime(now.year, now.month, now.day, now.hour, now.minute, now.second);
-    String filename = UserDetails.email +" "+ date.toIso8601String();
-    _image.rename(filename);
-    FTPConnect ftpConnect = FTPConnect('ftp.3dbeirut.com',user:'textbooks_app@3dbeirut.com', pass:'Geranimo542533');
-    File fileToUpload = File(_image.path);
-    print(_image.path);
-    bool res = await ftpConnect.uploadFileWithRetry(fileToUpload, pRetryCount: 2);
-  }
 
+  upload_image() async {
+    DateTime now = new DateTime.now();
+    DateTime date = new DateTime(
+        now.year, now.month, now.day, now.hour, now.minute, now.second);
+    String filename = UserDetails.email + " " + date.toIso8601String();
+    String newPath = path.join(path.dirname(_image.path), filename + ".jpg");
+    _image.renameSync(newPath);
+    FTPConnect ftpConnect = FTPConnect('ftp.3dbeirut.com',
+        user: 'textbooks_app@3dbeirut.com', pass: 'Geranimo542533');
+    File fileToUpload = File(newPath);
+    bool res =
+        await ftpConnect.uploadFileWithRetry(fileToUpload, pRetryCount: 2);
+  }
 
   Widget Price(TextEditingController controller, BuildContext context) {
     return Padding(
@@ -92,23 +94,29 @@ class _AddBook extends State<AddBook> {
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-            child: DropdownButton(
-                value: dropdown_value,
-                items: [
-                  DropdownMenuItem(
-                    child: Text("L.L"),
-                    value: 1,
-                  ),
-                  DropdownMenuItem(
-                    child: Text("\$"),
-                    value: 2,
-                  ),
-                ],
-                onChanged: (value) {
-                  setState(() {
-                    dropdown_value = value;
-                  });
-                }),
+            child: GestureDetector(
+              onTap: () {
+                print("234");
+                FocusScope.of(context).requestFocus(new FocusNode());
+              },
+              child: DropdownButton(
+                  value: dropdown_value,
+                  items: [
+                    DropdownMenuItem(
+                      child: Text("L.L"),
+                      value: 1,
+                    ),
+                    DropdownMenuItem(
+                      child: Text("\$"),
+                      value: 2,
+                    ),
+                  ],
+                  onChanged: (value) {
+                    setState(() {
+                      dropdown_value = value;
+                    });
+                  }),
+            ),
           ),
         ],
       ),
