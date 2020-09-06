@@ -98,7 +98,7 @@ class _BookDetailsState extends State<BookDetails> {
                           offset: Offset(3, 3))
                     ]),
                 child: Container(
-                  height: 200,
+                  height: 230,
                   width: 130,
                 ),
               ),
