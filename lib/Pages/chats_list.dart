@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:books_app/Helper%20Classes/user_details.dart';
 import 'package:books_app/Pages/chat.dart';
 import 'package:books_app/Pages/classes.dart';
@@ -39,13 +40,14 @@ class _ChatsListState extends State<ChatsList> {
     if (res.body != "[EMPTY]") {
       List<dynamic> jsonList = jsonDecode(res.body);
       for (int i = 0; i < jsonList.length; i++) {
-        chats.add(Chat(
+        chats.insert(0, Chat(
             id: jsonList[i][0],
             user1: jsonList[i][1],
             user2: jsonList[i][2],
             status: int.parse(jsonList[i][3]),
-            bookTitle: jsonList[i][4],
-            bookImage: jsonList[i][5]));
+            bookID: int.parse(jsonList[i][4]),
+            bookTitle: jsonList[i][5],
+            bookImage: jsonList[i][6]));
       }
     }
     if (this.mounted)
@@ -134,7 +136,7 @@ class ChatCard extends StatelessWidget {
               context,
               MaterialPageRoute(
                   builder: (BuildContext context) =>
-                      ChatPage(chat.id, otherUser, chat.bookTitle)));
+                      ChatPage(chat.id, otherUser, chat.bookID, chat.bookTitle)));
         },
         child: Card(
           elevation: 0,
@@ -172,10 +174,12 @@ class ChatCard extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
+                          AutoSizeText(
                             "Book: ${chat.bookTitle}",
-                            style: TextStyle(
-                                fontSize: 20, color: Color(0xFF706161)),
+                            maxFontSize: 22,
+                            maxLines: 2,
+                            minFontSize: 20,
+                            style: TextStyle(color: Color(0xFF706161)),
                           ),
                           Image(
                             image: AssetImage("assets/images/arrow_icon.png"),

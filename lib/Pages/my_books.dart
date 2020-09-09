@@ -37,7 +37,7 @@ class _MyBooksState extends State<MyBooks> {
     if (res.body != "[EMPTY]") {
       List<dynamic> jsonList = jsonDecode(res.body);
       for (int i = 0; i < jsonList.length; i++) {
-        books.add(Book(
+        books.insert(0, Book(
             id: jsonList[i][0],
             title: jsonList[i][1],
             author: jsonList[i][2],

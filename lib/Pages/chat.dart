@@ -1,20 +1,28 @@
+import 'dart:convert';
+
 import 'package:books_app/Helper%20Classes/firestore_helper.dart';
 import 'package:books_app/Helper%20Classes/user_details.dart';
+import 'package:books_app/Pages/book_details.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:books_app/Pages/classes.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:http/http.dart';
 
 class ChatPage extends StatefulWidget {
   String id, otherUser, bookName;
+  int bookID;
 
-  ChatPage(id, otherUser, bookName) {
+  ChatPage(id, otherUser, bookID, bookName) {
     this.id = id;
     this.otherUser = otherUser;
+    this.bookID = bookID;
     this.bookName = bookName;
   }
 
   @override
-  _ChatPageState createState() => _ChatPageState(id, otherUser, bookName);
+  _ChatPageState createState() =>
+      _ChatPageState(id, otherUser, bookID, bookName);
 }
 
 class _ChatPageState extends State<ChatPage> {
@@ -23,10 +31,13 @@ class _ChatPageState extends State<ChatPage> {
   List<MessageBox> messages;
   List<Widget> messageRows;
   String id, otherUser, bookName;
+  int bookID;
+  bool loading;
 
-  _ChatPageState(id, otherUser, bookName) {
+  _ChatPageState(id, otherUser, bookID, bookName) {
     this.id = id;
     this.otherUser = otherUser;
+    this.bookID = bookID;
     this.bookName = bookName;
   }
 
@@ -34,6 +45,7 @@ class _ChatPageState extends State<ChatPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    loading = false;
     messageController = TextEditingController();
     scrollController = ScrollController();
   }
@@ -114,8 +126,59 @@ class _ChatPageState extends State<ChatPage> {
             ],
           ),
         ),
+        actions: [
+          PopupMenuButton(
+            onSelected: (choice) async {
+              if (choice == "info"){
+                setState(() {
+                  loading = true;
+                });
+
+                Response res = await get(
+                    "http://khaled.3dbeirut.com/Textbooks%20App/Scripts/Get%20Books.php?id=$bookID");
+                if (res.body != "[EMPTY]") {
+                  dynamic jsonRes = jsonDecode(res.body);
+                    Book book = Book(
+                        id: jsonRes[0],
+                        title: jsonRes[1],
+                        author: jsonRes[2],
+                        description: jsonRes[3],
+                        date: jsonRes[4],
+                        price: jsonRes[5],
+                        image: jsonRes[6],
+                        sellerEmail: jsonRes[7],
+                        sellerName: jsonRes[8]);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              BookDetails(book, null, null)));
+                  }
+
+
+
+              } else if (choice == "cancel"){
+
+              }
+            },
+            itemBuilder: (BuildContext context) => [
+              PopupMenuItem(
+                value: "info",
+                child: Row(
+                  children: [Icon(Icons.info), Text("Book Details")],
+                ),
+              ),
+              PopupMenuItem(
+                value: "cancel",
+                child: Row(
+                  children: [Icon(Icons.cancel), Text("End Chat")],
+                ),
+              )
+            ],
+          )
+        ],
       ),
-      body: StreamBuilder<Object>(
+      body: !loading ? StreamBuilder<Object>(
           stream: FirestoreHelper(id: id).chat,
           builder: (context, snapshot) {
             Map<String, dynamic> chatMap = snapshot.data;
@@ -249,7 +312,10 @@ class _ChatPageState extends State<ChatPage> {
                 ),
               );
             }
-          }),
+          }) : SpinKitCircle(
+        color: Color(0xFFB67777),
+        size: 70,
+      )
     );
   }
 }

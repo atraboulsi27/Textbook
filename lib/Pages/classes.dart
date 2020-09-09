@@ -28,13 +28,14 @@ class Book {
 
 class Chat {
   String id, user1, user2, bookTitle, bookImage;
-  int status;
+  int bookID, status;
 
   Chat(
       {this.id,
       this.user1,
       this.user2,
       this.status,
+        this.bookID,
       this.bookTitle,
       this.bookImage});
 }
