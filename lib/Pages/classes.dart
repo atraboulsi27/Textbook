@@ -1,4 +1,5 @@
 import 'package:books_app/Pages/book_details.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -56,19 +57,19 @@ class BookCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 6),
       child: InkWell(
         onTap: () {
           FocusScope.of(context).unfocus();
           Navigator.push(
               context,
-              MaterialPageRoute(
+              CupertinoPageRoute(
                   builder: (BuildContext context) =>
                       BookDetails(book, changePage, startedChats)));
           dismissSearchBar.call();
         },
         child: Card(
-          elevation: 0,
+          elevation: 5,
           child: Container(
             height: 170,
             decoration: BoxDecoration(

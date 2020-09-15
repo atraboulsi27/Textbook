@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart';
 import 'classes.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class BooksList extends StatefulWidget {
   TextEditingController searchBarController;
@@ -41,16 +42,18 @@ class _BooksListState extends State<BooksList> {
     if (res.body != "[EMPTY]") {
       List<dynamic> jsonList = jsonDecode(res.body);
       for (int i = 0; i < jsonList.length; i++) {
-        books.insert(0, Book(
-            id: jsonList[i][0],
-            title: jsonList[i][1],
-            author: jsonList[i][2],
-            description: jsonList[i][3],
-            date: jsonList[i][4],
-            price: jsonList[i][5],
-            image: jsonList[i][6],
-            sellerEmail: jsonList[i][7],
-            sellerName: jsonList[i][8]));
+        books.insert(
+            0,
+            Book(
+                id: jsonList[i][0],
+                title: jsonList[i][1],
+                author: jsonList[i][2],
+                description: jsonList[i][3],
+                date: jsonList[i][4],
+                price: jsonList[i][5],
+                image: jsonList[i][6],
+                sellerEmail: jsonList[i][7],
+                sellerName: jsonList[i][8]));
       }
     }
     startedChats = [];
@@ -99,6 +102,8 @@ class _BooksListState extends State<BooksList> {
     });
   }
 
+  final RefreshController _refreshController = RefreshController();
+
   @override
   Widget build(BuildContext context) {
     if (loading)
@@ -116,13 +121,41 @@ class _BooksListState extends State<BooksList> {
         ),
       );
     else
-      return Container(
-          color: Colors.white,
-          child: ListView.builder(
-              itemCount: shownList.length,
-              itemBuilder: (context, index) {
-                return BookCard(shownList[index], dismissSearchBar, changePage,
-                    startedChats);
-              }));
+      return SmartRefresher(
+        controller: _refreshController,
+        enablePullDown: true,
+        header: WaterDropHeader(),
+        onRefresh: () async {
+          setState(() {
+            shownList = [];
+            books = [];
+            getList();
+            searchBarController.addListener(() {
+              String text = searchBarController.text;
+              shownList.clear();
+              for (int i = 0; i < books.length; i++) {
+                if (books[i].title.toLowerCase().contains(text.toLowerCase()) ||
+                    books[i]
+                        .author
+                        .toLowerCase()
+                        .contains(text.toLowerCase())) {
+                  shownList.add(books[i]);
+                }
+              }
+              if (this.mounted) setState(() {});
+            });
+          });
+          _refreshController.refreshCompleted();
+
+        },
+        child: Container(
+            color: Colors.white,
+            child: ListView.builder(
+                itemCount: shownList.length,
+                itemBuilder: (context, index) {
+                  return BookCard(shownList[index], dismissSearchBar,
+                      changePage, startedChats);
+                })),
+      );
   }
 }

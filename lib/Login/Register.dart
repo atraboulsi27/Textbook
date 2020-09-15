@@ -75,9 +75,12 @@ class _Register extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      body: Container(
+    return Scaffold(body: _body());
+  }
+
+  _body() {
+    return SingleChildScrollView(
+      child: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
@@ -116,253 +119,251 @@ class _Register extends State<Register> {
                     ),
                   ]),
               Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Center(
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                                child: Text(
-                                  "Display Name",
-                                  style: TextStyle(
-                                      fontFamily: 'selawk',
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                      fontStyle: FontStyle.italic),
-                                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Center(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                              child: Text(
+                                "Display Name",
+                                style: TextStyle(
+                                    fontFamily: 'selawk',
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontStyle: FontStyle.italic),
                               ),
-                              Opacity(
-                                opacity: 0.8,
-                                child: Container(
-                                  width: 301,
-                                  height: 75,
-                                  child: TextFormField(
-                                    controller: nameController,
-                                    decoration: InputDecoration(
-                                      helperText: ' ',
-                                      filled: true,
-                                      fillColor: Hexcolor("#FFFFFF"),
-                                      border: OutlineInputBorder(
-                                          borderRadius: const BorderRadius.all(
-                                            const Radius.circular(0),
-                                          ),
-                                          borderSide: BorderSide(
-                                            color: Hexcolor("#707070"),
-                                          )),
-                                    ),
-                                    validator: (value) {
-                                      if (value.isEmpty)
-                                        return 'Field can\'t be empty.';
-                                      else
-                                        return null;
-                                    },
+                            ),
+                            Opacity(
+                              opacity: 0.8,
+                              child: Container(
+                                width: 301,
+                                height: 75,
+                                child: TextFormField(
+                                  controller: nameController,
+                                  decoration: InputDecoration(
+                                    helperText: ' ',
+                                    filled: true,
+                                    fillColor: Hexcolor("#FFFFFF"),
+                                    border: OutlineInputBorder(
+                                        borderRadius: const BorderRadius.all(
+                                          const Radius.circular(0),
+                                        ),
+                                        borderSide: BorderSide(
+                                          color: Hexcolor("#707070"),
+                                        )),
                                   ),
+                                  validator: (value) {
+                                    if (value.isEmpty)
+                                      return 'Field can\'t be empty.';
+                                    else
+                                      return null;
+                                  },
                                 ),
                               ),
-                            ]),
-                      ),
-                      Center(
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                                child: Text(
-                                  "Email",
-                                  style: TextStyle(
-                                      fontFamily: 'selawk',
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                      fontStyle: FontStyle.italic),
-                                ),
+                            ),
+                          ]),
+                    ),
+                    Center(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                              child: Text(
+                                "Email",
+                                style: TextStyle(
+                                    fontFamily: 'selawk',
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontStyle: FontStyle.italic),
                               ),
-                              Opacity(
-                                opacity: 0.8,
-                                child: Container(
-                                  height: 75,
-                                  width: 301,
-                                  child: TextFormField(
-                                    controller: emailController,
-                                    decoration: InputDecoration(
-                                      helperText: ' ',
-                                      filled: true,
-                                      fillColor: Hexcolor("#FFFFFF"),
-                                      border: OutlineInputBorder(
-                                          borderRadius: const BorderRadius.all(
-                                            const Radius.circular(0),
-                                          ),
-                                          borderSide: BorderSide(
-                                            color: Hexcolor("#707070"),
-                                          )),
-                                    ),
-                                    validator: (value) {
-                                      if (value.isEmpty)
-                                        return 'Field can\'t be empty.';
-                                      else
-                                        return null;
-                                    },
+                            ),
+                            Opacity(
+                              opacity: 0.8,
+                              child: Container(
+                                height: 75,
+                                width: 301,
+                                child: TextFormField(
+                                  controller: emailController,
+                                  decoration: InputDecoration(
+                                    helperText: ' ',
+                                    filled: true,
+                                    fillColor: Hexcolor("#FFFFFF"),
+                                    border: OutlineInputBorder(
+                                        borderRadius: const BorderRadius.all(
+                                          const Radius.circular(0),
+                                        ),
+                                        borderSide: BorderSide(
+                                          color: Hexcolor("#707070"),
+                                        )),
                                   ),
+                                  validator: (value) {
+                                    if (value.isEmpty)
+                                      return 'Field can\'t be empty.';
+                                    else
+                                      return null;
+                                  },
                                 ),
                               ),
-                            ]),
-                      ),
-                      Center(
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                                child: Text(
-                                  "Password",
-                                  style: TextStyle(
-                                      fontFamily: 'selawk',
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                      fontStyle: FontStyle.italic),
-                                ),
+                            ),
+                          ]),
+                    ),
+                    Center(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                              child: Text(
+                                "Password",
+                                style: TextStyle(
+                                    fontFamily: 'selawk',
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontStyle: FontStyle.italic),
                               ),
-                              Opacity(
-                                opacity: 0.8,
-                                child: Container(
-                                  height: 75,
-                                  width: 301,
-                                  child: TextFormField(
-                                    controller: passController,
-                                    obscureText: true,
-                                    decoration: InputDecoration(
-                                      helperText: ' ',
-                                      filled: true,
-                                      fillColor: Hexcolor("#FFFFFF"),
-                                      border: OutlineInputBorder(
-                                          borderRadius: const BorderRadius.all(
-                                            const Radius.circular(0),
-                                          ),
-                                          borderSide: BorderSide(
-                                            color: Hexcolor("#707070"),
-                                          )),
-                                    ),
-                                    validator: (value) {
-                                      if (value.isEmpty) {
-                                        return 'Field can\'t be empty.';
-                                      } else if (value.length < 6)
-                                        return "Password must be 6 or more characters";
-                                      else
-                                        return null;
-                                    },
+                            ),
+                            Opacity(
+                              opacity: 0.8,
+                              child: Container(
+                                height: 75,
+                                width: 301,
+                                child: TextFormField(
+                                  controller: passController,
+                                  obscureText: true,
+                                  decoration: InputDecoration(
+                                    helperText: ' ',
+                                    filled: true,
+                                    fillColor: Hexcolor("#FFFFFF"),
+                                    border: OutlineInputBorder(
+                                        borderRadius: const BorderRadius.all(
+                                          const Radius.circular(0),
+                                        ),
+                                        borderSide: BorderSide(
+                                          color: Hexcolor("#707070"),
+                                        )),
                                   ),
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      return 'Field can\'t be empty.';
+                                    } else if (value.length < 6)
+                                      return "Password must be 6 or more characters";
+                                    else
+                                      return null;
+                                  },
                                 ),
                               ),
-                            ]),
-                      ),
-                      Center(
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                                child: Text(
-                                  "Confirm Password",
-                                  style: TextStyle(
-                                      fontFamily: 'selawk',
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                      fontStyle: FontStyle.italic),
-                                ),
+                            ),
+                          ]),
+                    ),
+                    Center(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                              child: Text(
+                                "Confirm Password",
+                                style: TextStyle(
+                                    fontFamily: 'selawk',
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontStyle: FontStyle.italic),
                               ),
-                              Opacity(
-                                opacity: 0.8,
-                                child: Container(
-                                  height: 75,
-                                  width: 301,
-                                  child: TextFormField(
-                                    controller: cpassController,
-                                    obscureText: true,
-                                    decoration: InputDecoration(
-                                      helperText: ' ',
-                                      filled: true,
-                                      fillColor: Hexcolor("#FFFFFF"),
-                                      border: OutlineInputBorder(
-                                          borderRadius: const BorderRadius.all(
-                                            const Radius.circular(0),
-                                          ),
-                                          borderSide: BorderSide(
-                                            color: Hexcolor("#707070"),
-                                          )),
-                                    ),
-                                    validator: (value) {
-                                      if (value.isEmpty) {
-                                        return 'Field can\'t be empty.';
-                                      } else if (value.length < 6)
-                                        return "Password must be 6 or more characters";
-                                      else if (passController.text.trim() !=
-                                          cpassController.text.trim())
-                                        return "Passwords do not match";
-                                      else
-                                        return null;
-                                    },
+                            ),
+                            Opacity(
+                              opacity: 0.8,
+                              child: Container(
+                                height: 75,
+                                width: 301,
+                                child: TextFormField(
+                                  controller: cpassController,
+                                  obscureText: true,
+                                  decoration: InputDecoration(
+                                    helperText: ' ',
+                                    filled: true,
+                                    fillColor: Hexcolor("#FFFFFF"),
+                                    border: OutlineInputBorder(
+                                        borderRadius: const BorderRadius.all(
+                                          const Radius.circular(0),
+                                        ),
+                                        borderSide: BorderSide(
+                                          color: Hexcolor("#707070"),
+                                        )),
                                   ),
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      return 'Field can\'t be empty.';
+                                    } else if (value.length < 6)
+                                      return "Password must be 6 or more characters";
+                                    else if (passController.text.trim() !=
+                                        cpassController.text.trim())
+                                      return "Passwords do not match";
+                                    else
+                                      return null;
+                                  },
                                 ),
                               ),
-                            ]),
-                      ),
-                      loadingError(),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 20, 0, 30),
-                        child: Center(
-                          child: RaisedButton(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(0.0),
-                                side: BorderSide(color: Hexcolor("#707070"))),
-                            padding: EdgeInsets.symmetric(
-                                vertical: 9, horizontal: 29),
-                            color: Hexcolor("#E6D3D3").withOpacity(0.54),
-                            onPressed: () async {
+                            ),
+                          ]),
+                    ),
+                    loadingError(),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 20, 0, 30),
+                      child: Center(
+                        child: RaisedButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(0.0),
+                              side: BorderSide(color: Hexcolor("#707070"))),
+                          padding:
+                              EdgeInsets.symmetric(vertical: 9, horizontal: 29),
+                          color: Hexcolor("#E6D3D3").withOpacity(0.54),
+                          onPressed: () async {
+                            setState(() {
+                              status = "";
+                            });
+                            if (formKey.currentState.validate()) {
+                              FocusScope.of(context)
+                                  .requestFocus(new FocusNode());
                               setState(() {
-                                status = "";
+                                status = "loading";
                               });
-                              if (formKey.currentState.validate()) {
-                                FocusScope.of(context)
-                                    .requestFocus(new FocusNode());
+                              String result = await auth.register(
+                                  emailController.text.trim(),
+                                  nameController.text.trim(),
+                                  passController.text.trim());
+                              if (result.contains("[USER]")) {
+                                UserDetails.setUserDetails(
+                                    result.replaceAll("[USER]", ""));
+                                Navigator.pop(context);
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            Home()));
+                              } else {
                                 setState(() {
-                                  status = "loading";
+                                  status = result;
                                 });
-                                String result = await auth.register(
-                                    emailController.text.trim(),
-                                    nameController.text.trim(),
-                                    passController.text.trim());
-                                if (result.contains("[USER]")) {
-                                  UserDetails.setUserDetails(
-                                      result.replaceAll("[USER]", ""));
-                                  Navigator.pop(context);
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (BuildContext context) =>
-                                              Home()));
-                                } else {
-                                  setState(() {
-                                    status = result;
-                                  });
-                                }
                               }
-                            },
-                            child: Text(
-                              "Sign up",
-                              style: TextStyle(
-                                fontFamily: 'selawk',
-                                fontSize: 25,
-                                color: Colors.white,
-                              ),
+                            }
+                          },
+                          child: Text(
+                            "Sign up",
+                            style: TextStyle(
+                              fontFamily: 'selawk',
+                              fontSize: 25,
+                              color: Colors.white,
                             ),
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ],

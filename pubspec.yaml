@@ -34,6 +34,7 @@ dependencies:
   image_picker: ^0.6.7+7
   font_awesome_flutter: ^8.8.1
   ftpconnect: ^0.1.6
+  pull_to_refresh: ^1.6.1
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3
