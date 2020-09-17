@@ -92,7 +92,8 @@ class _AddBook extends State<AddBook> {
             height: 50,
             width: MediaQuery.of(context).size.width / 2,
             child: TextFormField(
-              keyboardType: TextInputType.multiline,
+
+              keyboardType: TextInputType.number,
               maxLines: 2,
               controller: controller,
               decoration: InputDecoration(
@@ -215,10 +216,10 @@ class _AddBook extends State<AddBook> {
         onPressed: () {
           String price;
           dropdownValue == 1
-              ? price = priceController.text + " L.L"
-              : price = priceController.text + " \$";
-          insert_book(titleController.text, authorController.text,
-              descriptionController.text, price);
+              ? price = priceController.text.trim() + " L.L"
+              : price = priceController.text.trim() + " \$";
+          insert_book(titleController.text.trim(), authorController.text.trim(),
+              descriptionController.text.trim(), price);
         },
         foregroundColor: Colors.green,
         backgroundColor: Colors.white,
