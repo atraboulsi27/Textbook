@@ -72,12 +72,12 @@ class _BooksListState extends State<BooksList> {
       List<dynamic> jsonList = jsonDecode(res.body);
       String toAdd = "";
       for (int i = 0; i < jsonList.length; i++) {
-        if (jsonList[i][6] == UserDetails.email)
-          toAdd = jsonList[i][7];
+        if (jsonList[i][7] == UserDetails.email)
+          toAdd = jsonList[i][8];
         else
-          toAdd = jsonList[i][6];
+          toAdd = jsonList[i][7];
         if (!startedChats.contains(toAdd))
-          startedChats.add(StartedChats(title: jsonList[i][4], email: toAdd));
+          startedChats.add(StartedChats(title: jsonList[i][5], email: toAdd));
       }
     }
   }
