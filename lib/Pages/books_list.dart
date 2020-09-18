@@ -121,42 +121,33 @@ class _BooksListState extends State<BooksList> {
         ),
       );
     else
-      return
-//        RefreshIndicator(
-////        controller: _refreshController,
-////        enablePullDown: true,
-////        header: WaterDropHeader(),
-//        onRefresh: () async {
-//            shownList = [];
-//            books = [];
-//            getList();
-//            searchBarController.addListener (()async {
-//              String text = searchBarController.text;
-//              shownList.clear();
-//              await for (Book book  in books) {
-//                if (books[i].title.toLowerCase().contains(text.toLowerCase()) ||
-//                    books[i]
-//                        .author
-//                        .toLowerCase()
-//                        .contains(text.toLowerCase())) {
-//                  shownList.add(books[i]);
-//                }
-//              }
-//              if (this.mounted) setState(() {});
-//            });
-//
-////          _refreshController.refreshCompleted();
-//        },
-//        child:
-        Container(
+      return RefreshIndicator(
+        color: Color(0xFFB67777),
+        onRefresh: () async {
+          shownList = [];
+          books = [];
+          await getList();
+          dismissSearchBar();
+          searchBarController.addListener(() async {
+            String text = searchBarController.text;
+            shownList.clear();
+            for (int i = 0; i < books.length; i++) {
+              if (books[i].title.toLowerCase().contains(text.toLowerCase()) ||
+                  books[i].author.toLowerCase().contains(text.toLowerCase())) {
+                shownList.add(books[i]);
+              }
+            }
+            if (this.mounted) setState(() {});
+          });
+        },
+        child: Container(
             color: Colors.white,
             child: ListView.builder(
                 itemCount: shownList.length,
                 itemBuilder: (context, index) {
                   return BookCard(shownList[index], dismissSearchBar,
                       changePage, startedChats);
-                }));
-//    ,
-//      );
+                })),
+      );
   }
 }

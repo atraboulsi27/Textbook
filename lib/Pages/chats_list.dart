@@ -40,14 +40,16 @@ class _ChatsListState extends State<ChatsList> {
     if (res.body != "[EMPTY]") {
       List<dynamic> jsonList = jsonDecode(res.body);
       for (int i = 0; i < jsonList.length; i++) {
-        chats.insert(0, Chat(
-            id: jsonList[i][0],
-            user1: jsonList[i][1],
-            user2: jsonList[i][2],
-            status: int.parse(jsonList[i][3]),
-            bookID: int.parse(jsonList[i][4]),
-            bookTitle: jsonList[i][5],
-            bookImage: jsonList[i][6]));
+        chats.insert(
+            0,
+            Chat(
+                id: jsonList[i][0],
+                user1: jsonList[i][1],
+                user2: jsonList[i][2],
+                status: int.parse(jsonList[i][3]),
+                bookID: int.parse(jsonList[i][4]),
+                bookTitle: jsonList[i][5],
+                bookImage: jsonList[i][6]));
       }
     }
     if (this.mounted)
@@ -103,12 +105,38 @@ class _ChatsListState extends State<ChatsList> {
         ),
       );
     else
-      return Container(
-          child: ListView.builder(
-              itemCount: shownList.length,
-              itemBuilder: (context, index) {
-                return ChatCard(shownList[index], dismissSearchBar);
-              }));
+      return RefreshIndicator(
+        color: Color(0xFFB67777),
+        onRefresh: () async {
+          shownList = [];
+          chats = [];
+          await getChats();
+          dismissSearchBar();
+          searchBarController.addListener(() {
+            String text = searchBarController.text;
+            shownList.clear();
+            for (int i = 0; i < chats.length; i++) {
+              String otherUser = (chats[i].user1 == UserDetails.name)
+                  ? chats[i].user2
+                  : chats[i].user1;
+              if (otherUser.toLowerCase().contains(text.toLowerCase()) ||
+                  chats[i]
+                      .bookTitle
+                      .toLowerCase()
+                      .contains(text.toLowerCase())) {
+                shownList.add(chats[i]);
+              }
+            }
+            if (this.mounted) setState(() {});
+          });
+        },
+        child: Container(
+            child: ListView.builder(
+                itemCount: shownList.length,
+                itemBuilder: (context, index) {
+                  return ChatCard(shownList[index], dismissSearchBar);
+                })),
+      );
   }
 }
 
@@ -135,8 +163,8 @@ class ChatCard extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                      ChatPage(chat.id, otherUser, chat.bookID, chat.bookTitle)));
+                  builder: (BuildContext context) => ChatPage(
+                      chat.id, otherUser, chat.bookID, chat.bookTitle)));
         },
         child: Card(
           elevation: 0,

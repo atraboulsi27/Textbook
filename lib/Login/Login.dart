@@ -38,25 +38,27 @@ class _LoginState extends State<Login> {
         size: 30,
       );
     else
-      return Center(
-        child: Container(
-            height: 30,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20),
-                ),
-                color: Color(0xAAFFFFFF)),
-            width: MediaQuery.of(context).size.width / 1.5,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 7),
-              child: Center(
+      return Row( //to wrap container around content
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+              height: 30,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                  color: Color(0xAAFFFFFF)),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Icon(
                       Icons.error,
                       size: 20,
                       color: Colors.red[400],
+                    ),
+                    SizedBox(
+                      width: 7,
                     ),
                     AutoSizeText(
                       status,
@@ -66,8 +68,8 @@ class _LoginState extends State<Login> {
                     ),
                   ],
                 ),
-              ),
-            )),
+              )),
+        ],
       );
   }
 

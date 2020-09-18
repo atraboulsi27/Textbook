@@ -28,9 +28,9 @@ class Authentication {
     } catch (e) {
       switch (e.code) {
         case "invalid-email":
-          return "Enter a proper email address";
+          return "Enter a proper email address.";
         case "email-already-exists":
-          return "An account already exists with this email";
+          return "An account already exists with this email.";
       }
       return e.toString();
     }
@@ -45,7 +45,7 @@ class Authentication {
       print(e.code);
       switch (e.code) {
         case "wrong-password":
-          return "Enter a valid password";
+          return "Invalid email or password.";
         case "user-not-found":
           return "No account exists with this email.";
         case "invalid-email":

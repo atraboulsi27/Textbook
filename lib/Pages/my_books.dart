@@ -37,16 +37,18 @@ class _MyBooksState extends State<MyBooks> {
     if (res.body != "[EMPTY]") {
       List<dynamic> jsonList = jsonDecode(res.body);
       for (int i = 0; i < jsonList.length; i++) {
-        books.insert(0, Book(
-            id: jsonList[i][0],
-            title: jsonList[i][1],
-            author: jsonList[i][2],
-            description: jsonList[i][3],
-            date: jsonList[i][4],
-            price: jsonList[i][5],
-            image: jsonList[i][6],
-            sellerEmail: jsonList[i][7],
-            sellerName: jsonList[i][8]));
+        books.insert(
+            0,
+            Book(
+                id: jsonList[i][0],
+                title: jsonList[i][1],
+                author: jsonList[i][2],
+                description: jsonList[i][3],
+                date: jsonList[i][4],
+                price: jsonList[i][5],
+                image: jsonList[i][6],
+                sellerEmail: jsonList[i][7],
+                sellerName: jsonList[i][8]));
       }
     }
     if (this.mounted)
@@ -97,20 +99,43 @@ class _MyBooksState extends State<MyBooks> {
       );
     else
       return Scaffold(
-        body: Container(
-          color: Colors.white,
-          child: books.isEmpty
-              ? Center(
-                  child: Container(
-                    child: Text("You have not listed any books for sale."),
-                  ),
-                )
-              : ListView.builder(
-                  itemCount: shownList.length,
-                  itemBuilder: (context, index) {
-                    return BookCard(
-                        shownList[index], dismissSearchBar, null, null);
-                  }),
+        body: RefreshIndicator(
+          color: Color(0xFFB67777),
+          onRefresh: () async {
+            shownList = [];
+            books = [];
+            if (UserDetails.email != "anon") await getList();
+            dismissSearchBar();
+            searchBarController.addListener(() {
+              String text = searchBarController.text;
+              shownList.clear();
+              for (int i = 0; i < books.length; i++) {
+                if (books[i].title.toLowerCase().contains(text.toLowerCase()) ||
+                    books[i]
+                        .author
+                        .toLowerCase()
+                        .contains(text.toLowerCase())) {
+                  shownList.add(books[i]);
+                }
+              }
+              if (this.mounted) setState(() {});
+            });
+          },
+          child: Container(
+            color: Colors.white,
+            child: books.isEmpty
+                ? Center(
+                    child: Container(
+                      child: Text("You have not listed any books for sale."),
+                    ),
+                  )
+                : ListView.builder(
+                    itemCount: shownList.length,
+                    itemBuilder: (context, index) {
+                      return BookCard(
+                          shownList[index], dismissSearchBar, null, null);
+                    }),
+          ),
         ),
         floatingActionButton: FloatingActionButton(
           child: Container(
