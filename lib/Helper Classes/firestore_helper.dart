@@ -7,13 +7,13 @@ class FirestoreHelper {
 
   FirestoreHelper({this.id});
 
-  Future<bool> createChat(String user1, String user2, String bookTitle,
+  Future<bool> createChat(String user1, String user2, String bookID, String bookTitle,
       String bookImage, String user1email, String user2email) async {
     try {
       DocumentReference newDoc = await ref.add({"Chat": []});
       String chatID = newDoc.id;
       Response res = await get(
-          "http://khaled.3dbeirut.com/Textbooks%20App/Scripts/Create%20Chat.php?chatID=$chatID&user1=$user1&user2=$user2&bookTitle=$bookTitle&bookImage=$bookImage&user1email=$user1email&user2email=$user2email");
+          "https://textbooks.azurewebsites.net/PHP%20API/Create%20Chat.php?chatID=$chatID&user1=$user1&user2=$user2&bookID=$bookID&bookTitle=$bookTitle&bookImage=$bookImage&user1email=$user1email&user2email=$user2email");
       if (res.body == "[SUCCESS]")
         return true;
       else

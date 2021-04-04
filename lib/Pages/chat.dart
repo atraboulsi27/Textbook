@@ -136,7 +136,7 @@ class _ChatPageState extends State<ChatPage> {
                         });
 
                         Response res = await get(
-                            "http://khaled.3dbeirut.com/Textbooks%20App/Scripts/Get%20Books.php?id=$bookID");
+                            "https://textbooks.azurewebsites.net/PHP%20API/Get%20Books.php?id=$bookID");
                         if (res.body != "[EMPTY]") {
                           dynamic jsonRes = jsonDecode(res.body);
                           Book book = Book(

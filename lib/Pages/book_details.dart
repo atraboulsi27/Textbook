@@ -205,6 +205,7 @@ class _BookDetailsState extends State<BookDetails> {
                             bool result = await FirestoreHelper().createChat(
                                 book.sellerName,
                                 UserDetails.name,
+                                book.id,
                                 book.title,
                                 book.image,
                                 book.sellerEmail,

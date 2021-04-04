@@ -20,7 +20,7 @@ class Authentication {
       UserCredential user = await auth.createUserWithEmailAndPassword(
           email: email, password: pass);
       Response res = await get(
-          "http://khaled.3dbeirut.com/Textbooks%20App/Scripts/Insert%20User.php?email=$email&name=$name");
+          "https://textbooks.azurewebsites.net/PHP%20API/Insert%20User.php?email=$email&name=$name");
       if (res.body == "[SUCCESS]")
         return "[USER]" + user.user.email;
       else

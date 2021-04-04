@@ -7,7 +7,7 @@ class UserDetails {
     email = mail;
     if (mail != "anon") {
       Response res = await get(
-          "http://khaled.3dbeirut.com/Textbooks%20App/Scripts/Get%20Username%20From%20Email.php?email=$mail");
+          "https://textbooks.azurewebsites.net/PHP%20API/Get%20Username%20From%20Email.php?email=$mail");
       name = res.body;
     }
   }

@@ -63,7 +63,7 @@ class _AddBook extends State<AddBook> {
     if (res) {
       try {
         Response res1 = await get(
-            "http://khaled.3dbeirut.com/Textbooks%20App/Scripts/Insert%20Book.php?title=$title&author=$author&description=$description&date=$dateToBeInserted&price=$price&image=$mysqlImagePath&seller_email=$sellerEmail&seller_name=$sellerName");
+            "https://textbooks.azurewebsites.net/PHP%20API/Insert%20Book.php?title=$title&author=$author&description=$description&date=$dateToBeInserted&price=$price&image=$mysqlImagePath&seller_email=$sellerEmail&seller_name=$sellerName");
         if (res1.body == "[SUCCESS]") {
           return true;
         } else

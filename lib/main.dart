@@ -1,6 +1,7 @@
 import 'package:books_app/Helper%20Classes/Authentication.dart';
 import 'package:books_app/Helper%20Classes/user_details.dart';
 import 'package:books_app/Login/Login.dart';
+import 'package:books_app/Pages/push_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -48,6 +49,7 @@ launch(context) async {
   if (email != null) {
     if (email.isNotEmpty) {
       UserDetails.setUserDetails(email);
+      //PushNotificationsManager().init();
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (BuildContext context) => Home()));
     } else

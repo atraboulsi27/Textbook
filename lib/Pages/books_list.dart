@@ -37,23 +37,26 @@ class _BooksListState extends State<BooksList> {
   }
 
   getList() async {
-    Response res = await get(
-        "http://khaled.3dbeirut.com/Textbooks%20App/Scripts/Get%20Books.php");
-    if (res.body != "[EMPTY]") {
-      List<dynamic> jsonList = jsonDecode(res.body);
+    Response res = await post(Uri.https("nodejs-api.azurewebsites.net", "/"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{"command": "GET_BOOK"}));
+    if (jsonDecode(res.body)["rowsAffected"][0] != 0) {
+      List<dynamic> jsonList = jsonDecode(res.body)["recordsets"][0];
       for (int i = 0; i < jsonList.length; i++) {
         books.insert(
             0,
             Book(
-                id: jsonList[i][0],
-                title: jsonList[i][1],
-                author: jsonList[i][2],
-                description: jsonList[i][3],
-                date: jsonList[i][4],
-                price: jsonList[i][5],
-                image: jsonList[i][6],
-                sellerEmail: jsonList[i][7],
-                sellerName: jsonList[i][8]));
+                id: jsonList[i]["ID"].toString(),
+                title: jsonList[i]["Title"],
+                author: jsonList[i]["Author"],
+                description: jsonList[i]["Description"],
+                date: jsonList[i]["Date"],
+                price: jsonList[i]["Price"],
+                image: jsonList[i]["Image"],
+                sellerEmail: jsonList[i]["SellerEmail"],
+                sellerName: jsonList[i]["SellerName"]));
       }
     }
     startedChats = [];
@@ -67,7 +70,7 @@ class _BooksListState extends State<BooksList> {
 
   getChats() async {
     Response res = await get(
-        "http://khaled.3dbeirut.com/Textbooks%20App/Scripts/Get%20Chats.php?email=${UserDetails.email}");
+        "https://textbooks.azurewebsites.net/PHP%20API/Get%20Chats.php?email=${UserDetails.email}");
     if (res.body != "[EMPTY]") {
       List<dynamic> jsonList = jsonDecode(res.body);
       String toAdd = "";

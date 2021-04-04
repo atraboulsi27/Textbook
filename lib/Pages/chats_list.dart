@@ -36,7 +36,7 @@ class _ChatsListState extends State<ChatsList> {
 
   getChats() async {
     Response res = await get(
-        "http://khaled.3dbeirut.com/Textbooks%20App/Scripts/Get%20Chats.php?email=${UserDetails.email}");
+        "https://textbooks.azurewebsites.net/PHP%20API/Get%20Chats.php?email=${UserDetails.email}");
     if (res.body != "[EMPTY]") {
       List<dynamic> jsonList = jsonDecode(res.body);
       for (int i = 0; i < jsonList.length; i++) {
